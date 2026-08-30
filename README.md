@@ -1,6 +1,6 @@
 <div align="center">
   <div style="background-color: #818cf8; padding: 20px; border-radius: 10px; display: inline-block;">
-    <h1 style="color: white; margin: 0;">📦 FulfillSense</h1>
+    <h1 style="color: white; margin: 0;">FulfillSense</h1>
   </div>
   <p><b>Next-Gen Predictive Risk Intelligence API for Quick-Commerce Logistics</b></p>
   
@@ -12,26 +12,26 @@
 
 ---
 
-## 🚨 The Business Problem
+## The Business Problem
 Return-to-Origin (RTO) is the silent killer of eCommerce margins, particularly in South Asian markets where Cash on Delivery (COD) dominates. When a COD order is shipped but rejected by the customer upon delivery, the merchant absorbs **100% of the forward and reverse logistics costs** with zero revenue.
 
 Primitive rule-based fraud detection engines are too aggressive (blocking genuine buyers) or too passive (letting fraud through). 
 
-## 💡 The FulfillSense Solution
+## The FulfillSense Solution
 **FulfillSense** is a machine learning pipeline that intercepts high-risk COD orders *before* they enter your supply chain. Rather than relying on simple "If-Then" rules, FulfillSense uses a **Random Forest Classifier** to detect multivariate, non-linear correlations in consumer behavior (e.g., *a high-cart-value guest checkout placed at 3 AM via COD*), intercepting the order for manual validation and instantly protecting supply chain margins.
 
-## 🏗️ Technical Architecture
+## Technical Architecture
 
 ```mermaid
 graph TD
-    A[🛒 eCommerce Storefront<br>:Shopify / WooCommerce] -->|Daily Batch CSV| B(Fa:fa-upload Streamlit Sandbox UI)
-    B --> C{🧠 FulfillSense<br>Inference Engine}
+    A[eCommerce Storefront<br>:Shopify / WooCommerce] -->|Daily Batch CSV| B(Fa:fa-upload Streamlit Sandbox UI)
+    B --> C{FulfillSense<br>Inference Engine}
     C -->|Feature Extraction| D(Random Forest Classifier)
-    D -->|Probability < 75%| E((✅ Safe to Fulfill))
-    D -->|Probability >= 75%| F((⚠️ High Risk RTO))
+    D -->|Probability < 75%| E((Safe to Fulfill))
+    D -->|Probability >= 75%| F((High Risk RTO))
     
-    E --> G[🚚 Automated Dispatch to WMS]
-    F --> H[🛑 Operations Dashboard<br>For Manual Review/OTP]
+    E --> G[Automated Dispatch to WMS]
+    F --> H[Operations Dashboard<br>For Manual Review/OTP]
     
     classDef safe fill:#10B981,stroke:#047857,stroke-width:2px,color:white;
     classDef risk fill:#EF4444,stroke:#B91C1C,stroke-width:2px,color:white;
@@ -39,14 +39,14 @@ graph TD
     class F risk;
 ```
 
-## 💻 Tech Stack
+## Tech Stack
 - **Machine Learning Core**: `scikit-learn`, `pandas`, `numpy`
 - **Model Serialization**: `joblib`
 - **SaaS Backend & Pipeline UI**: `streamlit`
 - **Data Visualization**: `plotly`
 - **Marketing Front-End**: `HTML5`, `TailwindCSS` (Zero-image CSS Keyframe Animations)
 
-## 🚀 Getting Started
+## Getting Started
 
 Want to run the machine learning engine locally? It takes less than 60 seconds.
 
@@ -80,6 +80,6 @@ streamlit run app.py
 
 ---
 
-## 👨‍💻 Author
+## Author
 Built by **Abhinav Thakur**. 
 Demonstrating end-to-end full-stack capabilities, from raw data synthesis and machine learning serialization to highly polished B2B SaaS front-end design.
