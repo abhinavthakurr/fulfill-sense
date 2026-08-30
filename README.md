@@ -82,4 +82,4 @@ streamlit run app.py
 
 ## Author
 Built by **Abhinav Thakur**. 
-Demonstrating end-to-end full-stack capabilities, from raw data synthesis and machine learning serialization to highly polished B2B SaaS front-end design.
+Demonstrating end-to-end full-stack capabilities, from raw data synthesis and machine learning serialization to highly polished B2B SaaS front-end design. 
