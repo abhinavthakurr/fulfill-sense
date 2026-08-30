@@ -184,45 +184,97 @@
         <div class="max-w-7xl mx-auto px-6">
             <h2 class="text-4xl md:text-5xl font-extrabold text-center text-slate-900 mb-20">Powerful <span class="text-violet-600">Use Cases</span></h2>
 
-            <div class="grid md:grid-cols-2 gap-10">
+            <div class="grid md:grid-cols-2 gap-10 lg:gap-16">
                 <!-- Card 1 -->
-                <div class="bg-slate-50 rounded-3xl p-10 border border-slate-100 hover:shadow-xl transition-shadow group">
-                    <div class="bg-white rounded-2xl p-6 mb-8 border border-slate-100 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-2 h-full bg-red-400"></div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="font-bold text-slate-900">#IND-99214</span>
-                            <span class="bg-red-50 text-red-600 text-xs font-bold px-3 py-1 rounded-full">Quarantined</span>
+                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-shadow group flex flex-col justify-between">
+                    
+                    <!-- Shiprocket-Style UI Graphic (Product in dotted box) -->
+                    <div class="bg-gradient-to-tr from-indigo-50/50 to-purple-50/50 rounded-2xl p-6 mb-8 border border-slate-100 h-[280px] flex justify-center pt-8 relative overflow-hidden shadow-inner">
+                        
+                        <!-- Pseudo browser window -->
+                        <div class="bg-white rounded-t-xl shadow-lg border border-slate-200 w-full max-w-xs p-5 relative z-10 flex flex-col items-center">
+                            
+                            <!-- Browser Dots -->
+                            <div class="flex gap-1.5 w-full mb-6 relative justify-start">
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                            </div>
+                            
+                            <!-- Product Grid Layout (Like Shiprocket) -->
+                            <div class="w-full flex justify-center">
+                                <div class="border border-dashed border-red-300 bg-white rounded-xl p-3 flex flex-col items-center relative shadow-sm w-36">
+                                    <!-- Fake customer avatar -->
+                                    <div class="absolute -bottom-3 -left-3 shadow-md rounded-full bg-white p-0.5">
+                                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=100&h=100&fit=crop" class="w-8 h-8 rounded-full border border-slate-200 object-cover" alt="User">
+                                    </div>
+                                    
+                                    <!-- High Value Item Image (Watch) -->
+                                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&q=80&w=200" class="w-24 h-24 object-cover rounded shadow-sm mb-4" alt="Luxury Watch">
+                                    
+                                    <!-- Badge -->
+                                    <div class="bg-white border border-red-100 text-red-600 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-4">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg>
+                                        High RTO Risk
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="space-y-2 text-sm text-slate-600">
-                            <div class="flex justify-between"><span>Payment Method</span> <span class="font-semibold text-slate-900">Cash on Delivery</span></div>
-                            <div class="flex justify-between"><span>User Account</span> <span class="font-semibold text-slate-900">Guest Checkout</span></div>
-                            <div class="flex justify-between"><span>Timestamp</span> <span class="font-semibold text-red-500">03:14 AM</span></div>
-                        </div>
+
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-violet-600 transition-colors">The Midnight Fraudster</h3>
-                    <p class="text-slate-500 leading-relaxed">
-                        Fraudulent buyers often place fake COD orders in the middle of the night using guest accounts. Our AI recognizes this exact pattern footprint and halts the dispatch before the courier is booked.
-                    </p>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-red-500 transition-colors">The Midnight Fraudster</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">
+                            Fraudulent buyers often place fake COD orders in the middle of the night using guest accounts. Our ML recognizes this exact pattern footprint (e.g. 03:15 AM cart full of expensive watches) and halts dispatch instantly.
+                        </p>
+                    </div>
                 </div>
 
                 <!-- Card 2 -->
-                <div class="bg-slate-50 rounded-3xl p-10 border border-slate-100 hover:shadow-xl transition-shadow group">
-                    <div class="bg-white rounded-2xl p-6 mb-8 border border-slate-100 shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 w-2 h-full bg-emerald-400"></div>
-                        <div class="flex justify-between items-center mb-4">
-                            <span class="font-bold text-slate-900">#IND-99215</span>
-                            <span class="bg-emerald-50 text-emerald-600 text-xs font-bold px-3 py-1 rounded-full">Cleared</span>
+                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-shadow group flex flex-col justify-between">
+                    
+                    <!-- Shiprocket-Style UI Graphic (Product in dotted box) -->
+                    <div class="bg-gradient-to-tr from-emerald-50/50 to-cyan-50/50 rounded-2xl p-6 mb-8 border border-slate-100 h-[280px] flex justify-center pt-8 relative overflow-hidden shadow-inner">
+                        
+                        <!-- Pseudo browser window -->
+                        <div class="bg-white rounded-t-xl shadow-lg border border-slate-200 w-full max-w-xs p-5 relative z-10 flex flex-col items-center">
+                            
+                            <!-- Browser Dots -->
+                            <div class="flex gap-1.5 w-full mb-6 relative justify-start">
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                            </div>
+                            
+                            <!-- Product Grid Layout -->
+                            <div class="w-full flex justify-center">
+                                <div class="border border-dashed border-emerald-300 bg-white rounded-xl p-3 flex flex-col items-center relative shadow-sm w-36">
+                                    <!-- Fake customer avatar -->
+                                    <div class="absolute -bottom-3 -left-3 shadow-md rounded-full bg-white p-0.5">
+                                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop" class="w-8 h-8 rounded-full border border-slate-200 object-cover" alt="User">
+                                    </div>
+                                    
+                                    <!-- Item Image (Sneakers) -->
+                                    <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&q=80&w=200" class="w-24 h-24 object-cover rounded shadow-sm mb-4" alt="Sneakers">
+                                    
+                                    <!-- Badge -->
+                                    <div class="bg-white border border-emerald-100 text-emerald-600 text-[10px] font-bold px-2 py-1 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-4">
+                                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg>
+                                        Low RTO Risk
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="space-y-2 text-sm text-slate-600">
-                            <div class="flex justify-between"><span>Payment Method</span> <span class="font-semibold text-slate-900">Credit Card Prepaid</span></div>
-                            <div class="flex justify-between"><span>User Account</span> <span class="font-semibold text-slate-900">Registered (3 Yrs)</span></div>
-                            <div class="flex justify-between"><span>Cart Value</span> <span class="font-semibold text-emerald-500">High (₹ 12,000)</span></div>
-                        </div>
+
                     </div>
-                    <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-violet-600 transition-colors">Protecting Genuine High-Rollers</h3>
-                    <p class="text-slate-500 leading-relaxed">
-                        Basic rule systems block *all* high-value orders as risky. Our Random Forest model knows that if a user is registered and prepays, the RTO risk plummets—allowing high-LTV customers a frictionless experience.
-                    </p>
+
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-500 transition-colors">Protecting Genuine Buyers</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">
+                            Basic rule systems block *all* high-value orders as risky. Our Random Forest model knows that if a user is registered and prepays, the RTO risk plummets—allowing high-LTV customers a frictionless experience.
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
