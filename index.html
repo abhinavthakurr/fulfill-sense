@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FulfillSense | AI for eCommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <!-- Navbar -->
+    <nav class="flex items-center justify-between px-8 py-6 bg-white shadow-sm sticky top-0 z-50">
+        <div class="flex items-center gap-2">
+            <div class="w-6 h-6 bg-indigo-600 rounded-sm"></div>
+            <span class="text-xl font-bold text-slate-900">FulfillSense</span>
+        </div>
+        <div class="hidden md:flex gap-8 text-sm font-semibold text-slate-600">
+            <a href="#" class="hover:text-indigo-600">Product</a>
+            <a href="#" class="hover:text-indigo-600">Solutions</a>
+            <a href="#" class="hover:text-indigo-600">Pricing</a>
+            <a href="#" class="hover:text-indigo-600">Resources</a>
+        </div>
+        <div>
+            <a href="https://fulfill-sense.streamlit.app" target="_blank" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-lg transition-all shadow-md">Dashboard Login</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-gradient-to-b from-indigo-50 to-white pt-24 pb-32">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center gap-12">
+            <div class="md:w-1/2 space-y-6">
+                <h1 class="text-5xl md:text-6xl font-bold tracking-tight text-slate-900 leading-tight">
+                    Perfect your <br/>
+                    <span class="bg-gradient-to-r from-teal-400 to-indigo-500 gradient-text">eCommerce operations</span>
+                </h1>
+                <ul class="space-y-3 font-medium text-slate-700 mt-6">
+                    <li class="flex gap-2 items-center"><span class="text-indigo-600">✓</span> Reduce RTOs and return rates</li>
+                    <li class="flex gap-2 items-center"><span class="text-indigo-600">✓</span> Robust COD fraud prevention</li>
+                    <li class="flex gap-2 items-center"><span class="text-indigo-600">✓</span> Enhance supply-chain analytics</li>
+                </ul>
+                <p class="text-slate-500 mt-4 max-w-md leading-relaxed">
+                    Leverage advanced machine learning and statistical risk intelligence to minimise delivery failures and instantly quarantine high-risk orders.
+                </p>
+                <div class="pt-6">
+                    <a href="https://fulfill-sense.streamlit.app" target="_blank" class="px-8 py-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-lg transition-all shadow-lg text-lg inline-block">
+                        Access AI Engine ➔
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Hero Graphic (Mocking the UI cards from the screenshots) -->
+            <div class="md:w-1/2 relative h-96 w-full">
+                <!-- Decorative Graphic -->
+                <div class="absolute right-0 top-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+                
+                <!-- Floating Card 1 -->
+                <div class="absolute top-10 right-10 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 max-w-sm z-10 animate-bounce" style="animation-duration: 4s;">
+                    <span class="text-xs font-bold text-teal-500 bg-teal-50 px-2 py-1 rounded-full mb-2 inline-block">High Risk Detected</span>
+                    <h3 class="font-bold text-slate-800 text-lg">Order #11002</h3>
+                    <p class="text-slate-500 text-sm mt-1">Cash on Delivery + Guest Checkout at 3:00 AM.</p>
+                    <div class="mt-4 pt-3 border-t border-slate-100 flex justify-between items-center">
+                        <span class="text-red-500 font-bold text-sm">92% RTO Probability</span>
+                        <div class="h-2 w-16 bg-red-100 rounded-full overflow-hidden"><div class="h-full w-11/12 bg-red-500"></div></div>
+                    </div>
+                </div>
+
+                <!-- Floating Card 2 -->
+                <div class="absolute bottom-10 left-10 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 max-w-sm z-20">
+                    <span class="text-xs font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded-full mb-2 inline-block">System Log</span>
+                    <h3 class="font-bold text-slate-800">Margin Protected</h3>
+                    <p class="text-slate-500 text-sm mt-1">Successfully halted 34 doomed shipments today.</p>
+                    <div class="mt-3 text-2xl font-black text-indigo-900">₹ 8,450 <span class="text-sm font-normal text-slate-400">Saved</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mid Section -->
+    <section class="py-24 bg-white">
+        <div class="max-w-7xl mx-auto px-8">
+            <h2 class="text-4xl md:text-5xl font-bold text-center text-slate-900 mb-20">
+                Unbundle next-gen <span class="text-indigo-500">AI intelligence</span>
+            </h2>
+
+            <!-- Feature 1 -->
+            <div class="flex flex-col md:flex-row items-center gap-16 mb-24">
+                <div class="md:w-1/2 p-8 bg-slate-50 rounded-3xl border border-slate-100">
+                    <!-- Placeholder for UI image, using CSS shapes for clean look -->
+                    <div class="aspect-video bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-center">
+                        <div class="flex gap-4 items-center mb-6">
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center text-red-600 font-bold">X</div>
+                            <div><div class="h-4 w-32 bg-slate-200 rounded mb-2"></div><div class="h-3 w-20 bg-slate-100 rounded"></div></div>
+                        </div>
+                        <div class="h-2 w-full bg-slate-100 rounded-full mb-2"></div>
+                        <div class="h-2 w-3/4 bg-slate-100 rounded-full"></div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 space-y-4">
+                    <h3 class="text-3xl font-bold text-slate-900">Risk Intelligence Engine</h3>
+                    <p class="text-lg text-slate-500 leading-relaxed">
+                        Prevent potential fraud threats by mathematically assessing purchase parameters (time of day, cart value, account age) and reduce operating costs by up to 30%.
+                    </p>
+                    <a href="https://fulfill-sense.streamlit.app" target="_blank" class="text-indigo-600 font-bold hover:underline inline-flex items-center mt-2">
+                        Try Dashboard ➔
+                    </a>
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="flex flex-col md:flex-row-reverse items-center gap-16">
+                <div class="md:w-1/2 p-8 bg-blue-50 rounded-3xl border border-blue-100">
+                    <div class="aspect-video bg-white rounded-xl shadow-sm border border-slate-200 p-6 flex flex-col justify-center">
+                        <div class="space-y-4">
+                            <div class="flex justify-between items-center p-3 border border-slate-100 rounded-lg">
+                                <span class="font-semibold text-slate-700">Order #11054</span>
+                                <span class="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">Cleared</span>
+                            </div>
+                            <div class="flex justify-between items-center p-3 border border-red-100 bg-red-50 rounded-lg shadow-sm">
+                                <span class="font-semibold text-red-900">Order #11055</span>
+                                <span class="bg-red-200 text-red-800 text-xs font-bold px-2 py-1 rounded">Quarantined</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2 space-y-4">
+                    <h3 class="text-3xl font-bold text-slate-900">Checkout Guardrails</h3>
+                    <p class="text-lg text-slate-500 leading-relaxed">
+                        Automatically tag and sort product fulfillment queues. Halt shipments instantly when the algorithm detects a high probability of Return-To-Origin (RTO).
+                    </p>
+                    <a href="https://fulfill-sense.streamlit.app" target="_blank" class="text-indigo-600 font-bold hover:underline inline-flex items-center mt-2">
+                        View Analytics ➔
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bottom CTA -->
+    <section class="py-20 px-8">
+        <div class="max-w-6xl mx-auto bg-slate-900 rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+            <!-- Background glow -->
+            <div class="absolute top-0 left-1/2 translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full blur-[100px] opacity-20"></div>
+            
+            <h2 class="text-4xl md:text-5xl font-bold text-white mb-6 relative z-10">
+                Upgrade your decisions and <br/> join the <span class="text-teal-400">revolution!</span>
+            </h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-10 text-lg relative z-10">
+                Join India's top D2C brands in stopping margin leak at the source. Built exclusively for Shopify and WooCommerce ecosystems.
+            </p>
+            <a href="https://fulfill-sense.streamlit.app" target="_blank" class="px-8 py-4 bg-white text-slate-900 font-black rounded-lg hover:bg-slate-100 transition-all shadow-lg inline-block relative z-10">
+                Get Started Now
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-12 text-center text-slate-500 text-sm">
+        <div class="max-w-7xl mx-auto px-8 flex flex-col md:flex-row justify-between items-center">
+            <div class="font-bold text-slate-900 text-lg mb-4 md:mb-0">FulfillSense</div>
+            <div class="space-x-6">
+                <a href="#" class="hover:text-indigo-600">Privacy Policy</a>
+                <a href="#" class="hover:text-indigo-600">Terms of Service</a>
+                <a href="#" class="hover:text-indigo-600">Contact Us</a>
+            </div>
+        </div>
+        <p class="mt-8">© 2026 FulfillSense. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>
