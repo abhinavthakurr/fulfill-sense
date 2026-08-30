@@ -36,12 +36,11 @@
         .float-3 { animation: custom-bounce 4.5s ease-in-out infinite 0.5s; }
     </style>
 </head>
-<body class="bg-[#fafafa] text-slate-800 antialiased overflow-x-hidden selection:bg-indigo-100">
+<body class="bg-[#fafafa] text-slate-800 antialiased overflow-x-hidden selection:bg-indigo-100 relative">
 
     <!-- Navbar -->
-    <nav class="fixed w-full bg-white/80 backdrop-blur-md border-b border-slate-100 z-50 transition-all top-0">
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md border-b border-slate-100 z-40 transition-all top-0">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- UPDATED: Logo is now a real anchor tag linking to Home (#) -->
             <a href="#" class="font-extrabold text-2xl tracking-tighter flex items-center gap-2 cursor-pointer group">
                 <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-lg shadow-sm group-hover:shadow-md transition-all">F</div>
                 <span class="text-slate-900">Fulfill<span class="text-indigo-600">Sense</span></span>
@@ -51,11 +50,61 @@
                 <a href="#architecture" class="hover:text-indigo-600 transition-colors">AI Architecture</a>
                 <a href="#use-cases" class="hover:text-indigo-600 transition-colors">Use Cases</a>
             </div>
-            <a href="https://fulfill-sense.streamlit.app" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">
+            <!-- CHANGED: Replaced href with App Modal trigger -->
+            <button onclick="openAppModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">
                 Try for Free
-            </a>
+            </button>
         </div>
     </nav>
+
+    <!-- App Embed Modal (Initially Hidden) -->
+    <div id="app-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-2 sm:p-6 opacity-0 transition-opacity duration-300">
+        <!-- Dark Blur Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm shadow-2xl" onclick="closeAppModal()"></div>
+        
+        <!-- App Window Container -->
+        <div class="relative w-full max-w-7xl h-[100vh] sm:h-[90vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="app-modal-window">
+            
+            <!-- Fake macOS Window Header for ultimate pro feel -->
+            <div class="h-14 bg-slate-50 flex items-center justify-between px-5 border-b border-slate-200 shrink-0">
+                <div class="flex gap-2">
+                    <button onclick="closeAppModal()" class="w-3.5 h-3.5 rounded-full bg-red-400 hover:bg-red-500 transition-colors shadow-inner flex items-center justify-center group">
+                        <svg class="w-2 h-2 text-red-900 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <div class="w-3.5 h-3.5 rounded-full bg-amber-400 shadow-inner"></div>
+                    <div class="w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-inner"></div>
+                </div>
+                
+                <!-- Fake URL Bar -->
+                <div class="text-xs font-semibold text-slate-500 font-mono bg-white px-4 py-1.5 rounded-md border border-slate-200 shadow-sm flex items-center gap-2 max-w-md w-full justify-center lg:justify-start lg:w-96 mx-auto absolute left-1/2 -translate-x-1/2">
+                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    app.fulfillsense.com/risk-dashboard
+                </div>
+
+                <!-- Close Button Right (Mobile Fallback) -->
+                <button onclick="closeAppModal()" class="text-slate-400 hover:text-slate-700 font-bold text-sm bg-slate-200 hover:bg-slate-300 rounded-full px-3 py-1 transition-colors">Close</button>
+            </div>
+            
+            <!-- Loading Indicator -->
+            <div id="app-loader" class="absolute inset-0 top-14 bg-white flex flex-col items-center justify-center z-10">
+                <div class="w-16 h-16 rounded-full border-4 border-indigo-50 border-t-indigo-600 animate-spin mb-6 shadow-sm"></div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Deploying Secure Sandbox...</h3>
+                <p class="text-slate-400 font-medium text-sm animate-pulse max-w-sm text-center">
+                    Connecting to ML Risk Engine. Due to sandbox isolation, the startup may take a few seconds.
+                </p>
+            </div>
+
+            <!-- Embedded Streamlit Iframe (?embed=true hides the streamlit headers/footers) -->
+            <iframe 
+                id="app-iframe"
+                src=""
+                class="w-full flex-1 border-0"
+                onload="document.getElementById('app-loader').style.display='none'"
+                allow="fullscreen"
+            ></iframe>
+        </div>
+    </div>
+
 
     <!-- Hero Section -->
     <section class="relative pt-32 pb-24 md:pt-48 md:pb-32 px-6 overflow-hidden">
@@ -74,9 +123,10 @@
                 Leverage advanced machine learning to minimize delivery failures. FulfillSense intercepts high-risk COD orders before they enter your supply chain, protecting your margins instantly.
             </p>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <a href="https://fulfill-sense.streamlit.app" target="_blank" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full text-lg font-bold shadow-xl shadow-indigo-200 transition-all w-full sm:w-auto">
+                <!-- CHANGED: Replaced href with App Modal trigger -->
+                <button onclick="openAppModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-8 py-4 rounded-full text-lg font-bold shadow-xl shadow-indigo-200 transition-all w-full sm:w-auto">
                     Try for Free
-                </a>
+                </button>
                 <a href="#technology" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-full text-lg font-bold shadow-sm transition-all w-full sm:w-auto">
                     Explore Technology
                 </a>
@@ -87,7 +137,6 @@
         <div class="max-w-4xl mx-auto mt-20 relative z-10">
             <div class="bg-white rounded-3xl shadow-2xl p-2 border border-slate-100 transform -rotate-1 hover:rotate-0 transition-transform duration-500">
                 <div class="bg-slate-50 rounded-2xl p-4 md:p-6 border border-slate-100 overflow-hidden relative min-h-[400px]">
-                    
                     <!-- NEW CUSTOM HTML/CSS DASHBOARD GRAPHIC (REPLACED UNSPLASH IMAGE) -->
                     <div class="h-[400px] w-full bg-[#0f172a] rounded-xl overflow-hidden shadow-2xl flex relative border flex-col border-slate-700">
                         <!-- Mock Top Bar -->
@@ -131,7 +180,6 @@
                                     <div class="absolute inset-x-0 bottom-1/4 border-t border-slate-700/50 border-dashed"></div>
                                     <div class="absolute inset-x-0 bottom-2/4 border-t border-slate-700/50 border-dashed"></div>
                                     <div class="absolute inset-x-0 bottom-3/4 border-t border-slate-700/50 border-dashed"></div>
-                                    
                                     <!-- Fake Bars -->
                                     <div class="w-full bg-indigo-500/80 rounded-t h-[40%] relative z-10 hover:bg-indigo-400 transition-colors"></div>
                                     <div class="w-full bg-indigo-500/60 rounded-t h-[65%] relative z-10 hover:bg-indigo-400 transition-colors"></div>
@@ -145,13 +193,11 @@
                                 </div>
                             </div>
                         </div>
-                        
                         <!-- Gradient Overlay -->
                         <div class="absolute inset-0 bg-gradient-to-tr from-indigo-900/10 to-transparent pointer-events-none"></div>
                     </div>
                     
-                    
-                    <!-- Floating Widget 1 (Safe) -->
+                    <!-- Floating Widget 1 -->
                     <div class="absolute top-8 left-8 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-emerald-100 float-1 hidden md:block z-20">
                         <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1">Safe to Fulfill</p>
                         <h4 class="font-extrabold text-slate-900 text-base">Order #1104A</h4>
@@ -161,7 +207,7 @@
                         </div>
                     </div>
 
-                    <!-- Floating Widget 2 (Safe) -->
+                    <!-- Floating Widget 2 -->
                     <div class="absolute top-16 right-12 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-emerald-100 float-3 hidden md:block z-20">
                         <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1">Safe to Fulfill</p>
                         <h4 class="font-extrabold text-slate-900 text-base">Order #9921B</h4>
@@ -171,7 +217,7 @@
                         </div>
                     </div>
 
-                    <!-- Floating Widget 3 (High Risk) -->
+                    <!-- Floating Widget 3 -->
                     <div class="absolute bottom-8 right-8 bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-2xl border border-red-100 float-2 scale-110 z-20">
                         <p class="text-xs font-bold text-red-500 uppercase tracking-widest mb-1">High Risk Detected</p>
                         <h4 class="font-extrabold text-slate-900 text-lg">Order #88392</h4>
@@ -290,10 +336,7 @@
             <div class="grid md:grid-cols-2 gap-10 lg:gap-16">
                 <!-- Card 1: High Risk Scroller -->
                 <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-shadow group flex flex-col justify-between">
-                    
                     <div class="bg-gradient-to-tr from-indigo-50/50 to-purple-50/50 rounded-2xl p-6 mb-8 border border-slate-100 h-[280px] flex justify-center pt-8 relative overflow-hidden shadow-inner">
-                        
-                        <!-- Pseudo browser window -->
                         <div class="bg-white rounded-t-xl shadow-lg border border-slate-200 w-full max-w-sm p-4 relative z-10 flex flex-col items-center overflow-hidden">
                             <!-- Browser Dots -->
                             <div class="flex gap-1.5 w-full mb-4 relative justify-start z-20">
@@ -304,7 +347,6 @@
                             
                             <!-- Product Marquee Layout -->
                             <div class="w-full relative py-2">
-                                <!-- Edge Fade Masks -->
                                 <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent z-10"></div>
                                 <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent z-10"></div>
                                 
@@ -335,7 +377,7 @@
                                         </div>
                                     </div>
 
-                                    <!-- DUPLICATE GROUP (For Seamless Marquee) -->
+                                    <!-- DUPLICATE GROUP -->
                                     <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
                                         <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
                                         <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
@@ -363,9 +405,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                     <div>
                         <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-red-500 transition-colors">Multi-Variable Anomaly Detection</h3>
                         <p class="text-slate-500 leading-relaxed text-sm">
@@ -376,10 +416,7 @@
 
                 <!-- Card 2: Low Risk Scroller -->
                 <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-shadow group flex flex-col justify-between">
-                    
                     <div class="bg-gradient-to-tr from-emerald-50/50 to-cyan-50/50 rounded-2xl p-6 mb-8 border border-slate-100 h-[280px] flex justify-center pt-8 relative overflow-hidden shadow-inner">
-                        
-                        <!-- Pseudo browser window -->
                         <div class="bg-white rounded-t-xl shadow-lg border border-slate-200 w-full max-w-sm p-4 relative z-10 flex flex-col items-center overflow-hidden">
                             <!-- Browser Dots -->
                             <div class="flex gap-1.5 w-full mb-4 relative justify-start z-20">
@@ -390,11 +427,9 @@
                             
                             <!-- Product Marquee Layout -->
                             <div class="w-full relative py-2">
-                                <!-- Edge Fade Masks -->
                                 <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent z-10"></div>
                                 <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent z-10"></div>
                                 
-                                <!-- Reverse direction marquee for visual variation -->
                                 <div class="animate-marquee gap-3" style="animation-direction: reverse;">
                                     <!-- ORIGINAL GROUP -->
                                     <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
@@ -450,9 +485,7 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
-
                     <div>
                         <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-500 transition-colors">Protecting Genuine Buyers</h3>
                         <p class="text-slate-500 leading-relaxed text-sm">
@@ -476,16 +509,16 @@
             <p class="text-slate-300 max-w-xl mx-auto mb-10 text-lg relative z-10 font-medium">
                 Unbundle your logistics overhead. Upload your unfulfilled orders CSV today and instantly see how much margin you can save.
             </p>
-            <a href="https://fulfill-sense.streamlit.app" target="_blank" class="px-10 py-5 bg-white text-slate-900 font-extrabold rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors shadow-xl inline-block relative z-10 text-lg">
+            <!-- CHANGED: Replaced href with App Modal trigger -->
+            <button onclick="openAppModal()" class="px-10 py-5 bg-white text-slate-900 font-extrabold rounded-full hover:bg-indigo-50 hover:text-indigo-600 transition-colors shadow-xl inline-block relative z-10 text-lg cursor-pointer">
                 Try for Free
-            </a>
+            </button>
         </div>
     </section>
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-100 py-12 text-center text-slate-500 text-sm font-medium">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <!-- UPDATED: Footer logo is also an anchor linking to Home (#) -->
             <a href="#" class="font-extrabold text-xl text-slate-900 mb-4 md:mb-0 hover:opacity-80 transition-opacity">
                 Fulfill<span class="text-indigo-600">Sense</span>
             </a>
@@ -496,8 +529,56 @@
         </div>
     </footer>
 
+    <!-- App Modal Scripts -->
     <script>
-        // Simple JS to add shadow to navbar on scroll for that premium feel
+        function openAppModal() {
+            const modal = document.getElementById('app-modal');
+            const windowEl = document.getElementById('app-modal-window');
+            const iframe = document.getElementById('app-iframe');
+            
+            // Show modal container
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+                windowEl.classList.remove('scale-95');
+                windowEl.classList.add('scale-100');
+            }, 10);
+            
+            // Append ?embed=true to completely whitelabel (hide top/side bars of Streamlit)
+            if(!iframe.src.includes('streamlit.app')) {
+                iframe.src = "https://fulfill-sense.streamlit.app/?embed=true";
+            } else {
+                // If it already loaded, ensure loader disappears instantly just in case
+                document.getElementById('app-loader').style.display = 'none';
+            }
+            
+            // Prevent background page from scrolling while modal is open
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeAppModal() {
+            const modal = document.getElementById('app-modal');
+            const windowEl = document.getElementById('app-modal-window');
+            
+            // Trigger fade out
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            windowEl.classList.remove('scale-100');
+            windowEl.classList.add('scale-95');
+            
+            // Wait for transition to finish then hide container
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            
+            // Restore background scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add shadow to navbar on scroll for premium feel
         window.addEventListener('scroll', () => {
             const nav = document.querySelector('nav');
             if (window.scrollY > 10) {
