@@ -41,10 +41,11 @@
     <!-- Navbar -->
     <nav class="fixed w-full bg-white/80 backdrop-blur-md border-b border-slate-100 z-50 transition-all top-0">
         <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="font-extrabold text-2xl tracking-tighter flex items-center gap-2 cursor-pointer" onclick="window.scrollTo(0,0)">
-                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-lg shadow-sm">F</div>
+            <!-- UPDATED: Logo is now a real anchor tag linking to Home (#) -->
+            <a href="#" class="font-extrabold text-2xl tracking-tighter flex items-center gap-2 cursor-pointer group">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white text-lg shadow-sm group-hover:shadow-md transition-all">F</div>
                 <span class="text-slate-900">Fulfill<span class="text-indigo-600">Sense</span></span>
-            </div>
+            </a>
             <div class="hidden md:flex gap-8 font-semibold text-sm text-slate-500">
                 <a href="#technology" class="hover:text-indigo-600 transition-colors">Technology</a>
                 <a href="#architecture" class="hover:text-indigo-600 transition-colors">AI Architecture</a>
@@ -322,7 +323,6 @@
                                         </div>
                                     </div>
                                     <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
-                                        <!-- FIXED BROKEN SUNGLASSES IMAGE: REPLACED WITH IPHONE -->
                                         <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
                                         <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
                                             ⚠️ High Risk
@@ -349,7 +349,6 @@
                                         </div>
                                     </div>
                                     <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
-                                        <!-- FIXED BROKEN SUNGLASSES IMAGE: REPLACED WITH IPHONE -->
                                         <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
                                         <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
                                             ⚠️ High Risk
@@ -486,9 +485,10 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-100 py-12 text-center text-slate-500 text-sm font-medium">
         <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
-            <div class="font-extrabold text-xl text-slate-900 mb-4 md:mb-0">
+            <!-- UPDATED: Footer logo is also an anchor linking to Home (#) -->
+            <a href="#" class="font-extrabold text-xl text-slate-900 mb-4 md:mb-0 hover:opacity-80 transition-opacity">
                 Fulfill<span class="text-indigo-600">Sense</span>
-            </div>
+            </a>
             <div class="space-x-8">
                 <a href="#technology" class="hover:text-indigo-600 transition-colors">Technology</a>
                 <a href="https://github.com/abhinavthakurr/fulfill-sense" target="_blank" class="hover:text-indigo-600 transition-colors">GitHub Repository</a>
