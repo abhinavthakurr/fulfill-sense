@@ -19,7 +19,18 @@ st.sidebar.header("Merchant Settings")
 avg_shipping_cost = st.sidebar.number_input("Average Shipping Cost (Forward + Return) in ₹", value=150)
 risk_threshold = st.sidebar.slider("RTO Risk Threshold (%)", min_value=50, max_value=99, value=75)
 
-uploaded_file = st.file_uploader("Upload 'todays_unfulfilled_orders.csv'", type="csv")
+uploaded_file = st.file_uploader("Upload 'real_unfulfilled_orders.csv'", type="csv")
+
+# Explainer function for the PM requirement
+def get_risk_reason(row):
+    reasons = []
+    if row['is_cod'] == 1: reasons.append("Cash On Delivery")
+    if row['is_guest'] == 1: reasons.append("Guest Account")
+    if row['hour_of_day'] <= 5 or row['hour_of_day'] >= 23: reasons.append("Late Night Order")
+    if row['cart_value'] > 3000: reasons.append("High Cart Value")
+    
+    if len(reasons) == 0: return "Unknown Statistical Pattern"
+    return " + ".join(reasons)
 
 if uploaded_file is not None:
     # Read the data
@@ -44,15 +55,36 @@ if uploaded_file is not None:
     
     # Calculate Money Saved
     money_saved = len(high_risk_orders) * avg_shipping_cost
-    col3.metric("🚨 Potential Cash Saved", f"₹ {money_saved:,}", help="If you cancel these orders.")
+    col3.metric("🚨 Potential Cash Saved", f"₹ {money_saved:,}", help="If you cancel or mandate OTP for these orders.")
 
     # --- UI DISPLAY ---
     st.divider()
     if len(high_risk_orders) > 0:
         st.error(f"⚠️ We found {len(high_risk_orders)} orders with a high probability of being returned/fake.")
         
-        display_df = high_risk_orders[['order_id', 'cart_value', 'RTO_Probability', 'is_cod', 'is_guest']].sort_values('RTO_Probability', ascending=False)
-        st.dataframe(display_df.style.background_gradient(subset=['RTO_Probability'], cmap='Reds'), use_container_width=True)
+        # 1. Apply the PM requirement (Risk Reason)
+        high_risk_orders['Risk Reason'] = high_risk_orders.apply(get_risk_reason, axis=1)
+        
+        display_df = high_risk_orders[['order_id', 'Risk Reason', 'RTO_Probability', 'cart_value']].sort_values('RTO_Probability', ascending=False)
+        
+        # 2. Fix the crash by using Streamlit's beautiful native styling instead of buggy Pandas styling
+        st.dataframe(
+            display_df,
+            use_container_width=True,
+            column_config={
+                "order_id": "Order ID",
+                "Risk Reason": "🚨 Why is this risky?",
+                "cart_value": st.column_config.NumberColumn("Cart Value", format="₹%d"),
+                "RTO_Probability": st.column_config.ProgressColumn(
+                    "Risk Score (%)",
+                    help="Statistical probability of this order bouncing",
+                    format="%f%%",
+                    min_value=0,
+                    max_value=100,
+                ),
+            },
+            hide_index=True
+        )
     else:
         st.success("✅ All clear! Your current batch of orders looks mathematically healthy.")
 else:
