@@ -4,6 +4,9 @@ import joblib
 import plotly.express as px
 import io
 import numpy as np
+import shap
+import matplotlib.pyplot as plt
+
 
 # Setup Page UI
 st.set_page_config(page_title="FulfillSense Sandbox", layout="wide")
@@ -169,25 +172,50 @@ if df is not None and model is not None:
                 st.success("✅ No high-risk orders detected in current batch. All cleared for warehouse dispatch.")
 
         with tab3:
-            st.markdown("### Under the Hood: Scikit-Learn Engine")
-            st.write("FulfillSense utilizes an ensemble Random Forest classifier serialized from `train_model.py`. Instead of primitive API rules, it calculates non-linear correlations.")
+            st.markdown("### 🧠 Live Model Explainability (SHAP Game Theory)")
+            st.write("Unlike black-box systems, FulfillSense mathematically proves *why* an order was flagged by utilizing **Shapley Additive exPlanations (SHAP)**.")
             
-            st.markdown("""
-            **Primary Weights:**
-            *   **`is_cod` (Cash on Delivery)**: Primary vector for return fraud in South Asian emerging markets.
-            *   **`cart_value`**: Statistically significant anomaly spikes when exceeding INR 3,000 for unregistered users.
-            *   **`hour_of_day`**: Late night (01:00 to 05:00) checkouts exhibit 70%+ higher probability of buyer's remorse/RTO.
-            *   **`is_guest`**: Lack of LTV (Life Time Value) metadata strongly correlated with delivery refusals.
-            """)
-            
-            st.code("""
-# Core inference execution block (app.py)
-import joblib
-
-model = joblib.load('rto_model.pkl')
-prediction_probabilities = model.predict_proba(df[['is_cod', 'is_guest', 'cart_value', 'hour_of_day']])
-df['Risk_Score'] = prediction_probabilities[:, 1]
-            """, language="python")
+            if len(high_risk_orders) > 0:
+                st.markdown("#### Deep-Dive: Most Suspicious Order")
+                
+                # Take the most risky order index from the dataframe
+                top_risk = high_risk_orders.sort_values(by="RTO_Probability", ascending=False).iloc[0:1]
+                # We need the positional index of this row within the original 'features' dataframe
+                top_orig_idx = top_risk.index[0]
+                
+                colA, colB = st.columns([1, 2])
+                with colA:
+                    st.metric("Tracking ID", str(top_risk['order_id'].values[0]))
+                    st.metric("Risk Score", f"{top_risk['RTO_Probability'].values[0]}%")
+                    st.metric("Cart Value (INR)", f"₹{top_risk['cart_value'].values[0]}")
+                    
+                with colB:
+                    with st.spinner("Calculating Shapley values..."):
+                        # Calculate SHAP
+                        
+                        explainer = shap.TreeExplainer(model)
+                        row_to_explain = features.loc[[top_orig_idx]]
+                        sv = explainer(row_to_explain)
+                        
+                        # TreeExplainer on RandomForest classifies shape as [samples, features, classes]
+                        if len(sv.shape) == 3:
+                            sv_positive = sv[:, :, 1]
+                        else:
+                            sv_positive = sv
+                            
+                        fig, ax = plt.subplots(figsize=(6, 4))
+                        shap.plots.waterfall(sv_positive[0], show=False)
+                        plt.tight_layout()
+                        st.pyplot(fig)
+                        plt.clf()
+                        
+                st.markdown("**How to read this chart:**")
+                st.markdown("* The bottom axis is the predicted probability/risk score.")
+                st.markdown("* The **Red bars** push the fraud risk HIGHER (e.g. late night or large cart).")
+                st.markdown("* The **Blue bars** push the fraud risk LOWER (e.g. registered user).")
+                
+            else:
+                st.success("✅ No high-risk anomalies detected in this batch. All traffic displays normal multivariate distributions.")
 else:
     # Empty State
     st.info("👋 Welcome to the Sandbox!")
