@@ -11,5 +11,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping Streamlit App
-        # Pings the app to prevent it from going to sleep
-        run: curl -sL "https://fulfill-sense.streamlit.app/" > /dev/null
+        run: curl -s "https://fulfill-sense.streamlit.app/" > /dev/null
