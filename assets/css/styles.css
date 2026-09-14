@@ -85,16 +85,22 @@ body {
   overflow-x: hidden;
 }
 
-/* Film grain. Keeps large dark areas from looking like flat plastic. */
+/* Film grain. Keeps large dark areas from looking like flat plastic.
+   Deliberately a pre-rendered PNG tile rather than an inline `feTurbulence`
+   SVG filter, and deliberately WITHOUT `mix-blend-mode`. The filter+blend
+   version made Chrome rasterise procedural noise and blend it across the
+   whole viewport, which crashed the renderer on some integrated GPUs
+   (ChromeOS in particular). The tile costs one 18KB decode, then nothing. */
 body::after {
   content: "";
   position: fixed;
   inset: 0;
   z-index: 900;
   pointer-events: none;
-  opacity: 0.4;
-  mix-blend-mode: soft-light;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+  opacity: 0.55;
+  background-image: url("../img/grain.png");
+  background-repeat: repeat;
+  background-size: 128px 128px;
 }
 
 img,
@@ -364,14 +370,17 @@ section {
   padding-block: 1.1rem;
   border-bottom: 1px solid transparent;
   transition: background 0.4s ease, border-color 0.4s ease,
-    padding 0.4s var(--ease), backdrop-filter 0.4s ease;
+    padding 0.4s var(--ease), box-shadow 0.4s ease;
 }
 
+/* No `backdrop-filter` here. A blurred backdrop needs Chrome to read the
+   framebuffer back on every scroll frame, which crashes some GPU drivers.
+   A near-opaque bar plus a soft shadow reads almost identically. */
 .nav.is-stuck {
   padding-block: 0.7rem;
-  background: hsl(220 22% 4% / 0.72);
+  background: hsl(220 22% 4% / 0.94);
   border-bottom-color: var(--line);
-  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 18px 40px -28px hsl(220 40% 1% / 0.9);
 }
 
 .nav__inner {
@@ -874,20 +883,29 @@ section {
 .marquee {
   position: relative;
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 12%,
-    #000 88%,
-    transparent
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent,
-    #000 12%,
-    #000 88%,
-    transparent
-  );
+}
+
+/* Edge fades are painted as overlays rather than with `mask-image`. Masking a
+   box that holds an infinite animation makes Chrome re-composite a masked
+   layer every single frame; two static gradients cost nothing. */
+.marquee::before,
+.marquee::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 12%;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.marquee::before {
+  left: 0;
+  background: linear-gradient(90deg, hsl(220 20% 5%), hsl(220 20% 5% / 0));
+}
+
+.marquee::after {
+  right: 0;
+  background: linear-gradient(270deg, hsl(220 20% 5%), hsl(220 20% 5% / 0));
 }
 
 .marquee__track {
@@ -1131,6 +1149,7 @@ section {
 }
 
 .case__strip {
+  position: relative;
   display: flex;
   gap: 0.7rem;
   padding: 1.25rem 0.9rem;
@@ -1139,8 +1158,27 @@ section {
   background: hsl(220 20% 6%);
   border: 1px solid var(--line);
   overflow: hidden;
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+
+/* Same reasoning as `.marquee` above: overlay fades, not a mask layer. */
+.case__strip::before,
+.case__strip::after {
+  content: "";
+  position: absolute;
+  inset-block: 0;
+  width: 3.2rem;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.case__strip::before {
+  left: 0;
+  background: linear-gradient(90deg, hsl(220 20% 6%), hsl(220 20% 6% / 0));
+}
+
+.case__strip::after {
+  right: 0;
+  background: linear-gradient(270deg, hsl(220 20% 6%), hsl(220 20% 6% / 0));
 }
 
 .case__reel {
@@ -1188,17 +1226,16 @@ section {
   font-size: 0.58rem;
   letter-spacing: 0.05em;
   text-align: center;
-  backdrop-filter: blur(6px);
 }
 
 .tile__tag[data-state="risk"] {
   color: hsl(8 90% 78%);
-  background: hsl(8 78% 40% / 0.42);
+  background: hsl(8 62% 22% / 0.88);
 }
 
 .tile__tag[data-state="safe"] {
   color: hsl(163 72% 78%);
-  background: hsl(163 64% 28% / 0.45);
+  background: hsl(163 58% 16% / 0.88);
 }
 
 .case h3 {
@@ -1441,8 +1478,7 @@ section {
   display: grid;
   place-items: center;
   padding: clamp(0.5rem, 2vw, 1.75rem);
-  background: hsl(220 24% 2% / 0.82);
-  backdrop-filter: blur(10px);
+  background: hsl(220 24% 2% / 0.93);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.4s ease, visibility 0.4s;
