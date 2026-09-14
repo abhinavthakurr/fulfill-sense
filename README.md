@@ -80,6 +80,28 @@ streamlit run app.py
 
 ---
 
+## Uptime (Keeping the Live Demo Awake)
+
+The public sandbox runs on Streamlit Community Cloud, which hibernates an app
+after roughly 12 hours without a real viewer session and replaces it with a
+"Zzzz — this app has gone to sleep" screen.
+
+A `curl` ping does **not** prevent or fix this:
+
+- The app URL returns HTTP 200 even while hibernating (the sleep screen is
+  rendered client-side).
+- Hibernation is tracked from real viewer sessions (the `/_stcore/stream`
+  websocket), which `curl` never opens.
+- The wake-up call `POST /api/v2/app/resume` returns HTTP 403 for plain HTTP
+  clients; it only succeeds from a browser session.
+
+Instead, [`scripts/keep_alive.py`](scripts/keep_alive.py) runs every 3 hours via
+[GitHub Actions](.github/workflows/keep_alive.yml), driving a headless Chromium
+session that opens the app, clicks the wake-up button if it is asleep, verifies
+the dashboard actually renders, and holds the session open so the inactivity
+timer resets. Each run uploads a screenshot artifact as proof of state, and the
+job fails loudly (email notification) if the app cannot be brought up.
+
 ## Author
 Built by **Abhinav Thakur**. 
 Demonstrating end-to-end full-stack capabilities, from raw data synthesis and machine learning serialization to highly polished B2B SaaS front-end design. 

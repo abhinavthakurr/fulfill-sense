@@ -1,14 +1,73 @@
 name: Keep Streamlit App Awake
 
+# Streamlit Community Cloud hibernates an app after ~12h without a real viewer
+# session. A curl ping does not count (see scripts/keep_alive.py), so we run a
+# real headless browser session every 3 hours, which also self-heals by
+# clicking "Yes, get this app back up!" if the app ever does fall asleep.
+
 on:
   schedule:
-    # Runs everyday at 8:00 AM UTC
-    - cron: '0 8 * * *'
+    # Every 3 hours. Offset from :00 because scheduled runs at the top of the
+    # hour are the most likely to be delayed or dropped by GitHub.
+    - cron: '17 */3 * * *'
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/keep_alive.yml'
+      - 'scripts/keep_alive.py'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: keep-alive
+  cancel-in-progress: false
 
 jobs:
-  ping:
+  wake:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
-      - name: Ping Streamlit App
-        run: curl -s "https://fulfill-sense.streamlit.app/" > /dev/null
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install headless Chromium
+        run: |
+          python -m pip install --upgrade pip
+          pip install playwright
+          playwright install --with-deps chromium
+
+      - name: Wake app and hold a real session
+        env:
+          APP_URL: https://fulfill-sense.streamlit.app/
+          HOLD_SECONDS: '75'
+        run: python scripts/keep_alive.py
+
+      - name: Upload screenshot
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-state-${{ github.run_id }}
+          path: keepalive.png
+          if-no-files-found: ignore
+          retention-days: 7
+
+      # GitHub disables scheduled workflows after 60 days without repository
+      # activity, which would silently kill this keep-alive. Push an empty
+      # commit if the repo has been quiet for 45+ days.
+      - name: Keep the cron schedule from being auto-disabled
+        if: github.event_name == 'schedule'
+        run: |
+          last_commit_epoch=$(git log -1 --format=%ct)
+          age_days=$(( ( $(date +%s) - last_commit_epoch ) / 86400 ))
+          echo "Last commit was ${age_days} day(s) ago."
+          if [ "$age_days" -ge 45 ]; then
+            git config user.name 'github-actions[bot]'
+            git config user.email 'github-actions[bot]@users.noreply.github.com'
+            git commit --allow-empty -m 'chore: keep scheduled workflows enabled'
+            git push
+          fi
