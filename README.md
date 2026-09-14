@@ -44,10 +44,7 @@ graph TD
 - **Model Serialization**: `joblib`
 - **SaaS Backend & Pipeline UI**: `streamlit`
 - **Data Visualization**: `plotly`
-- **Marketing Front-End**: Hand-built `HTML5` + vanilla `CSS` design system —
-  no framework, no CDN, no build step. Instrument Serif / Inter / JetBrains
-  Mono, film-grain texture, scroll-reveal choreography, and a live risk console
-  driven by ~200 lines of dependency-free JavaScript.
+- **Marketing Front-End**: `HTML5`, `TailwindCSS` (Zero-image CSS Keyframe Animations)
 
 ## Getting Started
 

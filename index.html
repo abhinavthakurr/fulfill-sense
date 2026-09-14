@@ -1,499 +1,753 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FulfillSense — Predictive RTO Risk Intelligence for COD Commerce</title>
-<meta name="description" content="FulfillSense is a machine learning risk engine that intercepts high-risk cash-on-delivery orders before they enter your supply chain. Random Forest scoring, explainable risk reasons, and a live sandbox you can run on your own CSV.">
-<meta name="author" content="Abhinav Thakur">
-<link rel="canonical" href="https://abhinavthakurr.github.io/fulfill-sense/">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FulfillSense | Intelligence for eCommerce</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230d9488'/><text x='50%' y='52%' font-family='sans-serif' font-weight='900' font-size='65' fill='white' dominant-baseline='middle' text-anchor='middle'>F</text></svg>">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .blob-1 { position: absolute; filter: blur(90px); z-index: 0; opacity: 0.5; background: #ccfbf1; w-[500px]; h-[500px]; border-radius: 50%; top: -10%; left: -5%; }
+        .blob-2 { position: absolute; filter: blur(90px); z-index: 0; opacity: 0.4; background: #d1fae5; w-[500px]; h-[500px]; border-radius: 50%; bottom: -10%; right: -5%; }
+        .gradient-text { background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="FulfillSense — Predictive RTO Risk Intelligence">
-<meta property="og:description" content="A machine learning engine that intercepts high-risk COD orders before they cost you the forward and reverse leg. Try the live sandbox.">
-<meta property="og:url" content="https://abhinavthakurr.github.io/fulfill-sense/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0a0b0e">
-
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230d9488'/><text x='50%25' y='54%25' font-family='Georgia,serif' font-size='64' fill='%23041210' dominant-baseline='middle' text-anchor='middle'>F</text></svg>">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles.css">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "FulfillSense",
-  "applicationCategory": "BusinessApplication",
-  "description": "Machine learning risk engine that predicts return-to-origin probability for cash-on-delivery eCommerce orders.",
-  "url": "https://abhinavthakurr.github.io/fulfill-sense/",
-  "author": {
-    "@type": "Person",
-    "name": "Abhinav Thakur",
-    "url": "https://github.com/abhinavthakurr"
-  },
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "INR" }
-}
-</script>
+        /* Infinite Scrolling Marquee Animation */
+        @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            display: flex;
+            width: max-content;
+            animation: marquee 12s linear infinite;
+        }
+        .animate-marquee:hover {
+            animation-play-state: paused;
+        }
+        
+        /* Floating animations with different timings */
+        @keyframes custom-bounce {
+            0%, 100% { transform: translateY(-5%); }
+            50% { transform: translateY(0); }
+        }
+        .float-1 { animation: custom-bounce 4s ease-in-out infinite; }
+        .float-2 { animation: custom-bounce 5s ease-in-out infinite 1s; }
+        .float-3 { animation: custom-bounce 4.5s ease-in-out infinite 0.5s; }
+    </style>
 </head>
+<body class="bg-[#fafafa] text-slate-800 antialiased overflow-x-hidden selection:bg-teal-100 relative">
 
-<body>
-
-<!-- ============================== NAVIGATION ============================== -->
-<header class="nav">
-  <div class="shell nav__inner">
-    <a class="brand" href="#top" aria-label="FulfillSense home">
-      <span class="brand__mark" aria-hidden="true">F</span>
-      <b>Fulfill<span>Sense</span></b>
-    </a>
-
-    <nav aria-label="Primary">
-      <ul class="nav__links">
-        <li><a href="#engine">The engine</a></li>
-        <li><a href="#pipeline">Architecture</a></li>
-        <li><a href="#cases">Use cases</a></li>
-        <li><a href="#pricing">Pricing</a></li>
-      </ul>
+    <!-- Navbar -->
+    <nav class="fixed w-full bg-white/80 backdrop-blur-md border-b border-slate-100 z-40 transition-all top-0">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="font-extrabold text-2xl tracking-tighter flex items-center gap-2 cursor-pointer group">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-teal-500 to-emerald-500 flex items-center justify-center text-white text-lg shadow-sm group-hover:shadow-md transition-all">F</div>
+                <span class="text-slate-900">Fulfill<span class="text-teal-600">Sense</span></span>
+            </a>
+            <div class="hidden md:flex gap-8 font-semibold text-sm text-slate-500 flex-wrap items-center">
+                <a href="#technology" class="hover:text-teal-600 transition-colors">Technology</a>
+                <a href="#architecture" class="hover:text-teal-600 transition-colors">AI Architecture</a>
+                <a href="#use-cases" class="hover:text-teal-600 transition-colors">Use Cases</a>
+                <a href="#pricing" class="hover:text-teal-600 transition-colors">Pricing</a>
+            </div>
+            <!-- CHANGED: Replaced href with App Modal trigger -->
+            <button onclick="openAppModal()" class="bg-teal-600 hover:bg-teal-700 text-white px-6 py-2.5 rounded-full text-sm font-bold shadow-lg shadow-teal-200 transition-all transform hover:-translate-y-0.5">
+                Try for Free
+            </button>
+        </div>
     </nav>
 
-    <button class="btn btn--primary btn--sm" data-open-sandbox data-magnetic>
-      Open live sandbox
-    </button>
-  </div>
-</header>
+    <!-- App Embed Modal (Initially Hidden) -->
+    <div id="app-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-2 sm:p-6 opacity-0 transition-opacity duration-300">
+        <!-- Dark Blur Backdrop -->
+        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm shadow-2xl" onclick="closeAppModal()"></div>
+        
+        <!-- App Window Container -->
+        <div class="relative w-full max-w-7xl h-[100vh] sm:h-[90vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="app-modal-window">
+            
+            <!-- Fake macOS Window Header for ultimate pro feel -->
+            <div class="h-14 bg-slate-50 flex items-center justify-between px-5 border-b border-slate-200 shrink-0">
+                <div class="flex gap-2">
+                    <button onclick="closeAppModal()" class="w-3.5 h-3.5 rounded-full bg-red-400 hover:bg-red-500 transition-colors shadow-inner flex items-center justify-center group">
+                        <svg class="w-2 h-2 text-red-900 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                    <div class="w-3.5 h-3.5 rounded-full bg-amber-400 shadow-inner"></div>
+                    <div class="w-3.5 h-3.5 rounded-full bg-emerald-400 shadow-inner"></div>
+                </div>
+                
+                <!-- Fake URL Bar -->
+                <div class="text-xs font-semibold text-slate-500 font-mono bg-white px-4 py-1.5 rounded-md border border-slate-200 shadow-sm flex items-center gap-2 max-w-md w-full justify-center lg:justify-start lg:w-96 mx-auto absolute left-1/2 -translate-x-1/2">
+                    <svg class="w-3 h-3 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                    app.fulfillsense.com/risk-dashboard
+                </div>
 
-<main id="top">
-
-  <!-- ================================ HERO ================================ -->
-  <section class="hero">
-    <div class="glow glow--jade hero__glow-a" aria-hidden="true"></div>
-    <div class="glow glow--warm hero__glow-b" aria-hidden="true"></div>
-
-    <div class="shell hero__grid">
-      <div>
-        <p class="hero__eyebrow" data-reveal>
-          <span class="eyebrow">Predictive risk intelligence</span>
-        </p>
-
-        <h1 data-reveal style="--delay:80ms">
-          Ship with<br>absolute <em>certainty</em>
-        </h1>
-
-        <p class="lede" data-reveal style="--delay:160ms">
-          Return-to-origin quietly eats the margin on every cash-on-delivery
-          order you dispatch. FulfillSense scores each order against a Random
-          Forest trained on real buying behaviour, and quarantines the ones
-          that were never going to be accepted.
-        </p>
-
-        <div class="hero__actions" data-reveal style="--delay:240ms">
-          <button class="btn btn--primary" data-open-sandbox data-magnetic>
-            Run it on your data
-            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-              <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </button>
-          <a class="btn btn--ghost" href="#engine">Inspect the model</a>
-        </div>
-
-        <dl class="hero__meta" data-reveal style="--delay:320ms">
-          <div>
-            <dt data-count="5000" data-suffix="+">5,000+</dt>
-            <dd>Training records</dd>
-          </div>
-          <div>
-            <dt data-count="100">100</dt>
-            <dd>Decision trees</dd>
-          </div>
-          <div>
-            <dt data-count="75" data-suffix="%">75%</dt>
-            <dd>Quarantine line</dd>
-          </div>
-        </dl>
-      </div>
-
-      <!-- Live risk console -->
-      <div class="console" data-reveal style="--delay:220ms" aria-label="Live risk scoring console">
-        <div class="console__bar">
-          <span class="console__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="console__path">fulfillsense / inference</span>
-          <span class="console__live"><i aria-hidden="true"></i>Live</span>
-        </div>
-
-        <div class="console__body">
-          <div class="gauge">
-            <div class="gauge__ring">
-              <svg viewBox="0 0 148 148" width="148" height="148" role="img" aria-label="Current order risk score">
-                <circle class="gauge__track" cx="74" cy="74" r="64"></circle>
-                <circle class="gauge__value" id="gauge-value" cx="74" cy="74" r="64"></circle>
-              </svg>
-              <div class="gauge__readout">
-                <div class="gauge__pct" id="gauge-pct">0<sup>%</sup></div>
-                <div class="gauge__label" id="gauge-order">standby</div>
-              </div>
+                <!-- Close Button Right (Mobile Fallback) -->
+                <button onclick="closeAppModal()" class="text-slate-400 hover:text-slate-700 font-bold text-sm bg-slate-200 hover:bg-slate-300 rounded-full px-3 py-1 transition-colors">Close</button>
             </div>
-            <span class="gauge__verdict" id="gauge-verdict" data-state="safe">Safe to fulfill</span>
-          </div>
-
-          <div>
-            <div class="feed__head">
-              <span>Incoming orders</span>
-              <span>RTO probability</span>
+            
+            <!-- Loading Indicator -->
+            <div id="app-loader" class="absolute inset-0 top-14 bg-white flex flex-col items-center justify-center z-10">
+                <div class="w-16 h-16 rounded-full border-4 border-teal-50 border-t-teal-600 animate-spin mb-6 shadow-sm"></div>
+                <h3 class="text-xl font-bold text-slate-800 mb-2">Deploying Secure Sandbox...</h3>
+                <p class="text-slate-400 font-medium text-sm animate-pulse max-w-sm text-center">
+                    Connecting to ML Risk Engine. Due to sandbox isolation, the startup may take a few seconds.
+                </p>
             </div>
-            <div class="feed" id="order-feed"></div>
-          </div>
-        </div>
 
-        <div class="console__foot">
-          <span>model: random_forest_v1</span>
-          <span>features: 4</span>
-          <span>seed: 42</span>
+            <!-- Embedded Streamlit Iframe (?embed=true hides the streamlit headers/footers) -->
+            <iframe 
+                id="app-iframe"
+                src=""
+                class="w-full flex-1 border-0"
+                onload="document.getElementById('app-loader').style.display='none'"
+                allow="fullscreen"
+            ></iframe>
         </div>
-      </div>
     </div>
-  </section>
 
-  <!-- ============================== INTEGRATIONS =========================== -->
-  <div class="marquee-band">
-    <p class="marquee-band__label">Built for the rails modern commerce already runs on</p>
-    <div class="marquee">
-      <div class="marquee__track">
-        <span class="marquee__item">Shopify</span>
-        <span class="marquee__item">WooCommerce</span>
-        <span class="marquee__item">Stripe</span>
-        <span class="marquee__item">Razorpay</span>
-        <span class="marquee__item">FedEx</span>
-        <span class="marquee__item">UPS</span>
-        <span class="marquee__item">USPS</span>
-        <span class="marquee__item">Delhivery</span>
-        <span class="marquee__item">Blue Dart</span>
-        <span class="marquee__item">Shiprocket</span>
-        <span class="marquee__item">Xpressbees</span>
-        <span class="marquee__item">Shadowfax</span>
-        <span class="marquee__item">Ecom Express</span>
-        <span class="marquee__item" aria-hidden="true">Shopify</span>
-        <span class="marquee__item" aria-hidden="true">WooCommerce</span>
-        <span class="marquee__item" aria-hidden="true">Stripe</span>
-        <span class="marquee__item" aria-hidden="true">Razorpay</span>
-        <span class="marquee__item" aria-hidden="true">FedEx</span>
-        <span class="marquee__item" aria-hidden="true">UPS</span>
-        <span class="marquee__item" aria-hidden="true">USPS</span>
-        <span class="marquee__item" aria-hidden="true">Delhivery</span>
-        <span class="marquee__item" aria-hidden="true">Blue Dart</span>
-        <span class="marquee__item" aria-hidden="true">Shiprocket</span>
-        <span class="marquee__item" aria-hidden="true">Xpressbees</span>
-        <span class="marquee__item" aria-hidden="true">Shadowfax</span>
-        <span class="marquee__item" aria-hidden="true">Ecom Express</span>
-      </div>
-    </div>
-  </div>
 
-  <!-- =============================== ENGINE =============================== -->
-  <section id="engine">
-    <div class="shell">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow">The engine</span>
-        <h2>Not a dashboard.<br>A <em>statistical</em> opinion.</h2>
-        <p class="lede">
-          Rule-based fraud checks fail because fraud is not linear. The
-          FulfillSense core is an ensemble of one hundred decision trees that
-          learns the interactions a human would never write down.
-        </p>
-      </div>
-
-      <div class="tech__grid">
-        <div data-reveal>
-          <div class="code">
-            <div class="code__bar">
-              <span class="console__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-              <span>train_model.py</span>
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-24 md:pt-48 md:pb-32 px-6 overflow-hidden">
+        <div class="blob-1"></div>
+        <div class="blob-2"></div>
+        
+        <div class="max-w-5xl mx-auto text-center relative z-10">
+            <div class="inline-block bg-white border border-teal-100 text-teal-600 font-semibold px-4 py-1.5 rounded-full text-sm mb-6 shadow-sm">
+                Next-Gen Risk Intelligence API
             </div>
-<pre><code><span class="tok-kw">from</span> sklearn.ensemble <span class="tok-kw">import</span> RandomForestClassifier
-
-<span class="tok-com"># The core predictive engine.</span>
-model = <span class="tok-fn">RandomForestClassifier</span>(
-    n_estimators=<span class="tok-num">100</span>,
-    random_state=<span class="tok-num">42</span>,
-)
-model.<span class="tok-fn">fit</span>(X_train, y_train)</code></pre>
-          </div>
-
-          <div class="stream" aria-label="Inference log">
-            <div><span>&gt;</span> ingesting 5,000 localized order records</div>
-            <div><span>&gt;</span> extracting ['is_cod', 'is_guest', 'cart_value', 'hour_of_day']</div>
-            <div><span>&gt;</span> emitting real-time probability matrix&hellip;</div>
-          </div>
-        </div>
-
-        <div class="pillars">
-          <article class="pillar" data-reveal>
-            <span class="pillar__num">01</span>
-            <h3>Random Forest ensemble</h3>
-            <p>
-              One hundred trees vote on every order, surfacing the non-linear
-              correlations in shopper behaviour that brittle if-then rules
-              structurally cannot see.
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-slate-900 leading-[1.1] mb-6">
+                Ship with absolute <br/>
+                <span class="bg-gradient-to-r from-teal-600 to-emerald-400 gradient-text">certainty</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-500 max-w-2xl mx-auto leading-relaxed mb-10">
+                Leverage advanced machine learning to minimize delivery failures. FulfillSense intercepts high-risk COD orders before they enter your supply chain, protecting your margins instantly.
             </p>
-          </article>
-
-          <article class="pillar" data-reveal style="--delay:90ms">
-            <span class="pillar__num">02</span>
-            <h3>Dynamic feature weighting</h3>
-            <p>
-              A ₹6,000 cart is not risky on its own. It becomes risky at 3am,
-              on COD, from a guest checkout. The model weighs the combination,
-              not the variable.
-            </p>
-          </article>
-
-          <article class="pillar" data-reveal style="--delay:180ms">
-            <span class="pillar__num">03</span>
-            <h3>Explainable by default</h3>
-            <p>
-              Every score ships with the reason behind it, computed with SHAP
-              values, so a warehouse manager can defend the call instead of
-              trusting a black box.
-            </p>
-          </article>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- ============================== PIPELINE ============================== -->
-  <section id="pipeline">
-    <div class="glow glow--jade" style="width:32rem;height:32rem;top:10%;left:-16rem" aria-hidden="true"></div>
-    <div class="shell">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow">Architecture</span>
-        <h2>Three steps from CSV<br>to <em>quarantine</em></h2>
-        <p class="lede">
-          Designed to sit quietly between your storefront export and your
-          warehouse management system.
-        </p>
-      </div>
-
-      <div class="pipeline">
-        <article class="step surface" data-reveal>
-          <span class="step__num">1</span>
-          <h3>Ingestion</h3>
-          <p>
-            Drop the daily unfulfilled-orders export from Shopify or
-            WooCommerce. No integration work, no webhooks to maintain.
-          </p>
-        </article>
-
-        <article class="step surface" data-reveal style="--delay:110ms">
-          <span class="step__num">2</span>
-          <h3>Evaluation</h3>
-          <p>
-            The serialized model deserializes and scores the batch, returning a
-            calibrated RTO probability for every single line.
-          </p>
-        </article>
-
-        <article class="step surface" data-reveal style="--delay:220ms">
-          <span class="step__num">3</span>
-          <h3>Quarantine</h3>
-          <p>
-            Anything above your threshold is isolated for an OTP confirmation
-            call instead of being handed to a courier.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- ============================== USE CASES ============================= -->
-  <section id="cases">
-    <div class="shell">
-      <div class="section-head" data-reveal>
-        <span class="eyebrow">In practice</span>
-        <h2>Catch the losses.<br>Never the <em>loyalists</em>.</h2>
-      </div>
-
-      <div class="cases">
-        <article class="case surface" data-reveal>
-          <div class="case__strip">
-            <div class="case__reel">
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop" alt="Catalogue item flagged as high RTO risk" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">94% RTO</figcaption></figure>
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop" alt="Catalogue item flagged as high RTO risk" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">88% RTO</figcaption></figure>
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop" alt="Catalogue item flagged as high RTO risk" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">81% RTO</figcaption></figure>
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=200&h=200&fit=crop" alt="Catalogue item flagged as high RTO risk" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">79% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">94% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">88% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">81% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1585386959984-a4155224a1ad?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="risk">79% RTO</figcaption></figure>
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <!-- CHANGED: Replaced href with App Modal trigger -->
+                <button onclick="openAppModal()" class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-4 rounded-full text-lg font-bold shadow-xl shadow-teal-200 transition-all w-full sm:w-auto">
+                    Try for Free
+                </button>
+                <a href="#technology" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 px-8 py-4 rounded-full text-lg font-bold shadow-sm transition-all w-full sm:w-auto">
+                    Explore Technology
+                </a>
             </div>
-          </div>
-          <h3>Multi-variable anomaly detection</h3>
-          <p>
-            Fraud never shows up in one column. The model reads guest checkout
-            status, cart sizing, payment mode and order timing as a single
-            matrix, intercepting high-probability returns before dispatch.
-          </p>
-        </article>
+        </div>
 
-        <article class="case case--reverse surface" data-reveal style="--delay:120ms">
-          <div class="case__strip">
-            <div class="case__reel">
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" alt="Catalogue item cleared as safe to fulfill" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">4% RTO</figcaption></figure>
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=200&h=200&fit=crop" alt="Catalogue item cleared as safe to fulfill" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">8% RTO</figcaption></figure>
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=200&h=200&fit=crop" alt="Catalogue item cleared as safe to fulfill" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">11% RTO</figcaption></figure>
-              <figure class="tile"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&h=200&fit=crop" alt="Catalogue item cleared as safe to fulfill" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">12% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">4% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">8% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">11% RTO</figcaption></figure>
-              <figure class="tile" aria-hidden="true"><img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&h=200&fit=crop" alt="" loading="lazy" width="92" height="92"><figcaption class="tile__tag" data-state="safe">12% RTO</figcaption></figure>
+        <!-- Hero UI Graphic -->
+        <div class="max-w-4xl mx-auto mt-20 relative z-10">
+            <div class="bg-white rounded-3xl shadow-2xl p-2 border border-slate-100 transform -rotate-1 hover:rotate-0 transition-transform duration-500">
+                <div class="bg-slate-50 rounded-2xl p-4 md:p-6 border border-slate-100 overflow-hidden relative min-h-[400px]">
+                    <!-- NEW CUSTOM HTML/CSS DASHBOARD GRAPHIC (REPLACED UNSPLASH IMAGE) -->
+                    <div class="h-[400px] w-full bg-[#0f172a] rounded-xl overflow-hidden shadow-2xl flex relative border flex-col border-slate-700">
+                        <!-- Mock Top Bar -->
+                        <div class="h-12 border-b border-slate-800 flex items-center px-4 gap-2 bg-[#1e293b]/50">
+                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-amber-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
+                            <div class="ml-4 h-4 w-32 bg-slate-700/50 rounded-full"></div>
+                        </div>
+
+                        <!-- Mock Main Content -->
+                        <div class="flex flex-1 p-4 gap-4">
+                            <!-- Sidebar -->
+                            <div class="w-1/5 hidden md:flex flex-col gap-3 border-r border-slate-800 pr-4">
+                                <div class="h-8 w-full bg-teal-500/20 rounded border border-teal-500/30"></div>
+                                <div class="h-8 w-full bg-slate-800/80 rounded"></div>
+                                <div class="h-8 w-full bg-slate-800/80 rounded"></div>
+                                <div class="h-8 w-w-3/4 bg-slate-800/80 rounded"></div>
+                            </div>
+
+                            <!-- Main Grid -->
+                            <div class="w-full md:w-4/5 flex flex-col gap-4">
+                                <!-- Top Stats -->
+                                <div class="flex gap-4">
+                                    <div class="flex-1 bg-slate-800/60 h-24 rounded-lg p-3 flex flex-col justify-between border border-slate-700/50">
+                                        <div class="h-2 w-16 bg-slate-600 rounded"></div>
+                                        <div class="h-8 w-24 bg-emerald-400/20 rounded border border-emerald-400/30"></div>
+                                    </div>
+                                    <div class="flex-1 bg-slate-800/60 h-24 rounded-lg p-3 flex flex-col justify-between border border-slate-700/50">
+                                        <div class="h-2 w-16 bg-slate-600 rounded"></div>
+                                        <div class="h-8 w-24 bg-primary/20 bg-teal-500/20 rounded border border-teal-500/30"></div>
+                                    </div>
+                                    <div class="hidden sm:flex flex-1 bg-slate-800/60 h-24 rounded-lg p-3 flex-col justify-between border border-slate-700/50">
+                                        <div class="h-2 w-16 bg-slate-600 rounded"></div>
+                                        <div class="h-8 w-24 bg-red-400/20 rounded border border-red-400/30"></div>
+                                    </div>
+                                </div>
+                                <!-- Chart Area -->
+                                <div class="flex-1 bg-slate-800/60 rounded-lg p-4 relative flex items-end justify-between gap-3 overflow-hidden border border-slate-700/50">
+                                    <!-- Grid Lines -->
+                                    <div class="absolute inset-x-0 bottom-1/4 border-t border-slate-700/50 border-dashed"></div>
+                                    <div class="absolute inset-x-0 bottom-2/4 border-t border-slate-700/50 border-dashed"></div>
+                                    <div class="absolute inset-x-0 bottom-3/4 border-t border-slate-700/50 border-dashed"></div>
+                                    <!-- Fake Bars -->
+                                    <div class="w-full bg-teal-500/80 rounded-t h-[40%] relative z-10 hover:bg-teal-400 transition-colors"></div>
+                                    <div class="w-full bg-teal-500/60 rounded-t h-[65%] relative z-10 hover:bg-teal-400 transition-colors"></div>
+                                    <div class="w-full bg-emerald-500/80 rounded-t h-[30%] relative z-10"></div>
+                                    <div class="w-full bg-teal-500/70 rounded-t h-[80%] relative z-10 hover:bg-teal-400 transition-colors"></div>
+                                    <div class="w-full bg-teal-500/50 rounded-t h-[45%] relative z-10 hover:bg-teal-400 transition-colors"></div>
+                                    <!-- High Risk Spike -->
+                                    <div class="w-full bg-red-500/90 rounded-t h-[95%] relative z-10 shadow-[0_0_20px_rgba(239,68,68,0.4)] border-t border-red-400"></div>
+                                    <div class="w-full bg-teal-500/60 rounded-t h-[50%] relative z-10 hover:bg-teal-400 transition-colors"></div>
+                                    <div class="w-full bg-teal-500/40 rounded-t h-[20%] relative z-10 hover:bg-teal-400 transition-colors"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Gradient Overlay -->
+                        <div class="absolute inset-0 bg-gradient-to-tr from-teal-900/10 to-transparent pointer-events-none"></div>
+                    </div>
+                    
+                    <!-- Floating Widget 1 -->
+                    <div class="absolute top-8 left-8 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-emerald-100 float-1 hidden md:block z-20">
+                        <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1">Safe to Fulfill</p>
+                        <h4 class="font-extrabold text-slate-900 text-base">Order #1104A</h4>
+                        <div class="mt-2 flex items-center gap-3">
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden w-24"><div class="bg-emerald-500 h-full w-[12%]"></div></div>
+                            <span class="text-xs font-bold text-slate-700">12%</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Widget 2 -->
+                    <div class="absolute top-16 right-12 bg-white/95 backdrop-blur-sm p-4 rounded-2xl shadow-xl border border-emerald-100 float-3 hidden md:block z-20">
+                        <p class="text-[10px] font-bold text-emerald-500 uppercase tracking-widest mb-1">Safe to Fulfill</p>
+                        <h4 class="font-extrabold text-slate-900 text-base">Order #9921B</h4>
+                        <div class="mt-2 flex items-center gap-3">
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden w-24"><div class="bg-emerald-500 h-full w-[4%]"></div></div>
+                            <span class="text-xs font-bold text-slate-700">4%</span>
+                        </div>
+                    </div>
+
+                    <!-- Floating Widget 3 -->
+                    <div class="absolute bottom-8 right-8 bg-white/95 backdrop-blur-md p-5 rounded-2xl shadow-2xl border border-red-100 float-2 scale-110 z-20">
+                        <p class="text-xs font-bold text-red-500 uppercase tracking-widest mb-1">High Risk Detected</p>
+                        <h4 class="font-extrabold text-slate-900 text-lg">Order #88392</h4>
+                        <div class="mt-3 flex items-center gap-3">
+                            <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden w-32"><div class="bg-red-500 h-full w-[94%]"></div></div>
+                            <span class="text-sm font-bold text-slate-700">94%</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-          <h3>Protecting genuine buyers</h3>
-          <p>
-            Blunt rules block every high-value order. The forest learns that a
-            registered customer who prepays is among your safest revenue, and
-            lets your best buyers through untouched.
-          </p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- =============================== PRICING ============================== -->
-  <section id="pricing">
-    <div class="shell">
-      <div class="section-head" data-reveal style="text-align:center;margin-inline:auto">
-        <span class="eyebrow">Pricing</span>
-        <h2>Simple, transparent<br><em>pricing</em></h2>
-        <p class="lede" style="margin-inline:auto">
-          Whether you are an open-source hobbyist, a scaling D2C brand, or a
-          hiring manager looking for someone who ships.
-        </p>
-      </div>
-
-      <div class="plans">
-        <article class="plan surface" data-reveal>
-          <h3 class="plan__name">Hobbyist</h3>
-          <p class="plan__note">For playing with the ML workflow end to end.</p>
-          <p class="plan__price"><b>₹0</b><span>/month</span></p>
-          <ul class="plan__list">
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Clone the entire GitHub repository</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Full Streamlit sandbox access</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited CSV scoring runs</li>
-          </ul>
-          <a class="btn btn--ghost btn--wide" href="https://github.com/abhinavthakurr/fulfill-sense" target="_blank" rel="noopener">View source code</a>
-        </article>
-
-        <article class="plan plan--featured surface" data-reveal style="--delay:110ms">
-          <span class="plan__ribbon">Best value</span>
-          <h3 class="plan__name">Acquire the creator</h3>
-          <p class="plan__note">Why license the API when you can hire the person who built it?</p>
-          <p class="plan__price"><b>1</b><span>job offer</span></p>
-          <ul class="plan__list">
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>FulfillSense integrated into your stack</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>End-to-end shipping, data to interface</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Architecture your team can maintain</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Exceptional return on office coffee</li>
-          </ul>
-          <a class="btn btn--primary btn--wide" data-magnetic href="mailto:abhinavt792@gmail.com?subject=FulfillSense%20%7C%20Let's%20Connect">Let's connect</a>
-        </article>
-
-        <article class="plan plan--muted surface" data-reveal style="--delay:220ms">
-          <h3 class="plan__name">Enterprise API</h3>
-          <p class="plan__note">Massive scale for massive supply chains.</p>
-          <p class="plan__price"><b>₹4,999</b><span>/month</span></p>
-          <ul class="plan__list">
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>50,000 scored requests per month</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom model retraining</li>
-            <li><svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 7.5 5.5 11 12 3.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Shopify webhook support</li>
-          </ul>
-          <button class="btn btn--ghost btn--wide" disabled>Beta full</button>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================ CLOSER ============================== -->
-  <section>
-    <div class="shell">
-      <div class="closer" data-reveal>
-        <h2>Stop guessing.<br>Start <em>predicting</em>.</h2>
-        <p class="lede">
-          Upload today's unfulfilled orders and watch the engine separate the
-          revenue from the write-offs, line by line.
-        </p>
-        <button class="btn btn--primary" data-open-sandbox data-magnetic>
-          Open the live sandbox
-          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true">
-            <path d="M2 8h11M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-      </div>
-
-      <div class="author" data-reveal>
-        <div>
-          <span class="eyebrow">The creator</span>
-          <h3 style="margin-top:0.9rem">Built end to end by Abhinav Thakur</h3>
-          <p>
-            Synthetic data generation, feature engineering, model training and
-            serialization, the Streamlit inference sandbox, and this interface —
-            designed and shipped solo.
-          </p>
         </div>
-        <div class="author__links">
-          <a class="btn btn--ghost btn--sm" href="https://github.com/abhinavthakurr/fulfill-sense" target="_blank" rel="noopener">GitHub</a>
-          <a class="btn btn--ghost btn--sm" href="mailto:abhinavt792@gmail.com?subject=FulfillSense%20%7C%20Let's%20Connect">Email</a>
-        </div>
-      </div>
-    </div>
-  </section>
-</main>
 
-<!-- ================================ FOOTER ================================ -->
-<footer class="footer">
-  <div class="shell footer__inner">
-    <a class="brand" href="#top">
-      <span class="brand__mark" aria-hidden="true">F</span>
-      <b>Fulfill<span>Sense</span></b>
-    </a>
-    <ul class="footer__links">
-      <li><a href="#engine">The engine</a></li>
-      <li><a href="#pipeline">Architecture</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="https://github.com/abhinavthakurr/fulfill-sense" target="_blank" rel="noopener">Repository</a></li>
-    </ul>
-    <p class="footer__note">&copy; <span id="year">2026</span> FulfillSense — a portfolio project by Abhinav Thakur.</p>
-  </div>
-</footer>
+    </section>
 
-<!-- ============================= SANDBOX MODAL ============================ -->
-<div class="modal" id="sandbox" role="dialog" aria-modal="true" aria-label="FulfillSense live sandbox" aria-hidden="true">
-  <div class="modal__panel">
-    <div class="modal__bar">
-      <span class="console__dots" aria-hidden="true"><i></i><i></i><i></i></span>
-      <span class="modal__url">app.fulfillsense.com / risk-dashboard</span>
-      <button class="btn btn--ghost btn--sm" data-close>Close</button>
-    </div>
-    <div class="modal__stage">
-      <div class="loader" id="sandbox-loader">
-        <span class="brand__mark brand__mark--lg" aria-hidden="true">F</span>
-        <h3>Warming the risk engine</h3>
-        <p>The sandbox runs on a cold-start container. First boot takes a few seconds.</p>
-        <div class="loader__bar" aria-hidden="true"><i></i></div>
-      </div>
-      <iframe id="sandbox-frame" title="FulfillSense Streamlit sandbox" loading="lazy"></iframe>
-    </div>
-  </div>
+    <!-- Native Integrations Strip -->
+    <section class="py-10 bg-slate-50 border-t border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Designed for seamless integration with logistics leaders</p>
+            <div class="relative w-full overflow-hidden mt-8 py-2">
+                <!-- Fade masks -->
+                <div class="absolute inset-y-0 left-0 w-16 md:w-32 bg-gradient-to-r from-slate-50 to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute inset-y-0 right-0 w-16 md:w-32 bg-gradient-to-l from-slate-50 to-transparent z-10 pointer-events-none"></div>
+                
+                <!-- Track -->
+                <div class="animate-marquee flex items-center gap-16 md:gap-24 opacity-60 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300" style="animation-duration: 30s;">
+                    
+                    <!-- ORIGINAL GROUP -->
+                    <div class="flex items-center gap-2 font-bold text-xl text-slate-800 shrink-0">
+                        <svg class="w-6 h-6 text-[#96bf48]" viewBox="0 0 448 512" fill="currentColor"><path d="M388.3 118.9c-29.4-44.5-98.3-43.1-127-14.9l-22.3 22-22.3-22c-28.7-28.2-97.6-29.6-127 14.9-20.9 31.6-18.7 75.3 11.2 105.1l138.1 136.91-138.1 136.9C71.3 468.2 69 512 89.9 543.6c29.4 44.5 98.3 43.1 127 14.9l22.3-22 22.3 22c28.7 28.2 97.6 29.6 127-14.9 20.9-31.6 18.7-75.3-11.2-105.1l-138.1-136.9 138.1-136.91c29.9-29.8 32-73.5 11-105.1z m-44 149.1L224 388.9 103.7 268.1c-14.6-14.5-16.1-39.6-1.8-54.8 13.9-14.8 40.5-16.5 57.3-3.1-11.8 11.4-18.4 20.5-18.9 21-.9 1.1-.3 2.8 1.1 3 21 3.2 46.8-6.1 63.8-23 20.2-20 46-21.7 63.8-23 2-2.1-4.7 0-3.5 2.5 5 11 11.5 29.8 18.9 21.1 16.8-13.4 43.4-11.7 57.3 3.1 14.3 15.2 12.8 40.3-1.8 54.8z" transform="scale(0.8) translate(50, -40)"/></svg>
+                        Shopify
+                    </div>
+                    <div class="flex items-center gap-2 font-bold text-xl text-slate-800 tracking-tight shrink-0">
+                        <div class="w-6 h-6 rounded bg-[#96588a] flex items-center justify-center text-white text-sm">W</div>
+                        WooCommerce
+                    </div>
+                    <div class="flex items-center font-bold text-xl text-[#02042b] shrink-0">
+                        Razorpay
+                    </div>
+                    <div class="flex items-center font-black text-xl italic text-slate-800 tracking-tighter shrink-0">
+                        DELHIVERY
+                    </div>
+                    <div class="flex items-center gap-2 font-black text-xl text-slate-800 uppercase tracking-tighter shrink-0">
+                        <span class="text-[#fdb611]">Blue</span>Dart
+                    </div>
+                    <div class="flex items-center font-black text-xl shrink-0">
+                        <span class="text-[#0e1648]">Ship</span><span class="text-[#2acfa4]">rocket</span>
+                    </div>
+                    <div class="flex items-center font-black text-xl tracking-tighter shrink-0">
+                        <span class="text-[#e23d41]">Xpress</span><span class="text-slate-800">bees</span>
+                    </div>
+                    <div class="flex items-center font-extrabold text-xl uppercase tracking-widest shrink-0">
+                        <span class="text-[#f57723]">Shadow</span><span class="text-slate-800">fax</span>
+                    </div>
+                    <div class="flex items-center font-black text-2xl font-sans tracking-tight shrink-0">
+                        <span class="text-[#4d148c]">Fed</span><span class="text-[#ff6600]">Ex</span>
+                    </div>
+                    <div class="flex items-center font-extrabold text-xl italic shrink-0">
+                        <span class="text-[#d32f2f]">Ecom</span><span class="text-slate-800">Express</span>
+                    </div>
+                    
+                    <!-- DUPLICATE GROUP FOR INFINITE SCROLL -->
+                    <div class="flex items-center gap-2 font-bold text-xl text-slate-800 shrink-0">
+                        <svg class="w-6 h-6 text-[#96bf48]" viewBox="0 0 448 512" fill="currentColor"><path d="M388.3 118.9c-29.4-44.5-98.3-43.1-127-14.9l-22.3 22-22.3-22c-28.7-28.2-97.6-29.6-127 14.9-20.9 31.6-18.7 75.3 11.2 105.1l138.1 136.91-138.1 136.9C71.3 468.2 69 512 89.9 543.6c29.4 44.5 98.3 43.1 127 14.9l22.3-22 22.3 22c28.7 28.2 97.6 29.6 127-14.9 20.9-31.6 18.7-75.3-11.2-105.1l-138.1-136.9 138.1-136.91c29.9-29.8 32-73.5 11-105.1z m-44 149.1L224 388.9 103.7 268.1c-14.6-14.5-16.1-39.6-1.8-54.8 13.9-14.8 40.5-16.5 57.3-3.1-11.8 11.4-18.4 20.5-18.9 21-.9 1.1-.3 2.8 1.1 3 21 3.2 46.8-6.1 63.8-23 20.2-20 46-21.7 63.8-23 2-2.1-4.7 0-3.5 2.5 5 11 11.5 29.8 18.9 21.1 16.8-13.4 43.4-11.7 57.3 3.1 14.3 15.2 12.8 40.3-1.8 54.8z" transform="scale(0.8) translate(50, -40)"/></svg>
+                        Shopify
+                    </div>
+                    <div class="flex items-center gap-2 font-bold text-xl text-slate-800 tracking-tight shrink-0">
+                        <div class="w-6 h-6 rounded bg-[#96588a] flex items-center justify-center text-white text-sm">W</div>
+                        WooCommerce
+                    </div>
+                    <div class="flex items-center font-bold text-xl text-[#02042b] shrink-0">
+                        Razorpay
+                    </div>
+                    <div class="flex items-center font-black text-xl italic text-slate-800 tracking-tighter shrink-0">
+                        DELHIVERY
+                    </div>
+                    <div class="flex items-center gap-2 font-black text-xl text-slate-800 uppercase tracking-tighter shrink-0">
+                        <span class="text-[#fdb611]">Blue</span>Dart
+                    </div>
+                    <div class="flex items-center font-black text-xl shrink-0">
+                        <span class="text-[#0e1648]">Ship</span><span class="text-[#2acfa4]">rocket</span>
+                    </div>
+                    <div class="flex items-center font-black text-xl tracking-tighter shrink-0">
+                        <span class="text-[#e23d41]">Xpress</span><span class="text-slate-800">bees</span>
+                    </div>
+                    <div class="flex items-center font-extrabold text-xl uppercase tracking-widest shrink-0">
+                        <span class="text-[#f57723]">Shadow</span><span class="text-slate-800">fax</span>
+                    </div>
+                    <div class="flex items-center font-black text-2xl font-sans tracking-tight shrink-0">
+                        <span class="text-[#4d148c]">Fed</span><span class="text-[#ff6600]">Ex</span>
+                    </div>
+                    <div class="flex items-center font-extrabold text-xl italic shrink-0">
+                        <span class="text-[#d32f2f]">Ecom</span><span class="text-slate-800">Express</span>
+                    </div>
+
+                </div>
 </div>
+    </section>
 
-<script src="assets/js/main.js" defer></script>
+    <!-- Technology Section -->
+
+    <section id="technology" class="py-24 bg-white border-t border-slate-100 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-20">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Built on <span class="text-teal-600">Scikit-Learn</span></h2>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+                    We didn't just build a dashboard; we built a proprietary statistical engine designed to shock engineering leads. Here is how the FulfillSense Machine Learning core operates.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 shadow-inner">
+                    <div class="space-y-6 lg:space-y-8 text-sm font-mono text-slate-600">
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-200">
+                            <span class="text-teal-600">from</span> sklearn.ensemble <span class="text-teal-600">import</span> RandomForestClassifier<br><br>
+                            <span class="text-slate-400"># Instantiating the core predictive engine</span><br>
+                            model = RandomForestClassifier(<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;n_estimators=100,<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;random_state=42<br>
+                            )
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="h-px bg-slate-300 w-full"></div>
+                            <div class="text-slate-400 font-sans font-bold text-xs uppercase w-48 text-center">Data Ingestion</div>
+                            <div class="h-px bg-slate-300 w-full"></div>
+                        </div>
+                        <div class="bg-white p-4 rounded-xl shadow-sm border border-teal-100 border-l-4 border-l-teal-500">
+                            > Processing 5,000+ localized data points<br>
+                            > Extracting ['is_cod', 'is_guest', 'hour_of_day']<br>
+                            > Outputting real-time probability matrix...
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="space-y-6">
+                    <div class="flex items-start gap-4">
+                        <div class="bg-teal-100 p-3 rounded-xl"><svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg></div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Random Forest Ensemble</h3>
+                            <p class="text-slate-500">Unlike brittle rule-based engines, FulfillSense uses an ensemble of decision trees to find hidden, non-linear correlations in shopper behavior that humans miss.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-emerald-100 p-3 rounded-xl"><svg class="w-6 h-6 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Feature Importance Scoring</h3>
+                            <p class="text-slate-500">The model weighs variables dynamically, avoiding primitive "if-this-then-that" traps.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="bg-pink-100 p-3 rounded-xl"><svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg></div>
+                        <div>
+                            <h3 class="text-xl font-bold text-slate-900 mb-2">Explainable AI</h3>
+                            <p class="text-slate-500">We don't just output a risk score. The algorithm provides a concrete "Risk Reason", empowering warehouse managers to make informed calls.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Architecture Section -->
+    <section id="architecture" class="py-24 bg-[#fafafa] scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Pipeline <span class="bg-gradient-to-r from-emerald-500 to-teal-600 gradient-text">Architecture</span></h2>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+                    Designed for scale. See how data flows from your eCommerce storefront into our predictive quarantine engine.
+                </p>
+            </div>
+            
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 max-w-5xl mx-auto">
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex-1 text-center w-full">
+                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-100 text-2xl font-black text-slate-300">1</div>
+                    <h4 class="font-bold text-slate-900 text-lg mb-2">Ingestion</h4>
+                    <p class="text-slate-500 text-sm">Upload daily unfulfilled order CSVs directly from Shopify or WooCommerce.</p>
+                </div>
+                
+                <div class="hidden md:block text-slate-300">➔</div>
+                
+                <div class="bg-white p-8 rounded-3xl border border-teal-100 shadow-lg shadow-teal-100 border-b-4 border-b-teal-500 flex-1 text-center w-full transform md:-translate-y-4">
+                    <div class="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-2xl font-black text-teal-600 shadow-inner">2</div>
+                    <h4 class="font-bold text-teal-900 text-lg mb-2">ML Evaluation</h4>
+                    <p class="text-teal-700/70 text-sm">Pickle model deserializes and runs Random Forest prediction to generate RTO %.</p>
+                </div>
+
+                <div class="hidden md:block text-slate-300">➔</div>
+                
+                <div class="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm flex-1 text-center w-full">
+                    <div class="w-16 h-16 bg-slate-50 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-slate-100 text-2xl font-black text-slate-300">3</div>
+                    <h4 class="font-bold text-slate-900 text-lg mb-2">Quarantine</h4>
+                    <p class="text-slate-500 text-sm">High-risk orders are isolated in the Streamlit UI for manual review or cancellation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases Section -->
+    <section id="use-cases" class="py-24 bg-white border-t border-slate-100 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center text-slate-900 mb-20">Powerful <span class="text-emerald-500">Use Cases</span></h2>
+
+            <div class="grid md:grid-cols-2 gap-10 lg:gap-16">
+                <!-- Card 1: High Risk Scroller -->
+                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-shadow group flex flex-col justify-between">
+                    <div class="bg-gradient-to-tr from-teal-50/50 to-teal-50/50 rounded-2xl p-6 mb-8 border border-slate-100 h-[280px] flex justify-center pt-8 relative overflow-hidden shadow-inner">
+                        <div class="bg-white rounded-t-xl shadow-lg border border-slate-200 w-full max-w-sm p-4 relative z-10 flex flex-col items-center overflow-hidden">
+                            <!-- Browser Dots -->
+                            <div class="flex gap-1.5 w-full mb-4 relative justify-start z-20">
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                            </div>
+                            
+                            <!-- Product Marquee Layout -->
+                            <div class="w-full relative py-2">
+                                <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent z-10"></div>
+                                <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent z-10"></div>
+                                
+                                <div class="animate-marquee gap-3">
+                                    <!-- ORIGINAL GROUP -->
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+
+                                    <!-- DUPLICATE GROUP -->
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-red-300 bg-red-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-red-600 border-red-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ⚠️ High Risk
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-red-500 transition-colors">Multi-Variable Anomaly Detection</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">
+                            Fraud doesn't happen in isolation. Our Machine Learning evaluates a dense matrix of parameters instantly—correlating guest checkout status, cart sizing metrics, and historical risk markers to intercept high-probability RTOs automatically before dispatch.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Card 2: Low Risk Scroller -->
+                <div class="bg-slate-50 rounded-3xl p-8 border border-slate-100 hover:shadow-xl transition-shadow group flex flex-col justify-between">
+                    <div class="bg-gradient-to-tr from-emerald-50/50 to-cyan-50/50 rounded-2xl p-6 mb-8 border border-slate-100 h-[280px] flex justify-center pt-8 relative overflow-hidden shadow-inner">
+                        <div class="bg-white rounded-t-xl shadow-lg border border-slate-200 w-full max-w-sm p-4 relative z-10 flex flex-col items-center overflow-hidden">
+                            <!-- Browser Dots -->
+                            <div class="flex gap-1.5 w-full mb-4 relative justify-start z-20">
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                                <div class="w-2.5 h-2.5 rounded-full bg-slate-200"></div>
+                            </div>
+                            
+                            <!-- Product Marquee Layout -->
+                            <div class="w-full relative py-2">
+                                <div class="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-white to-transparent z-10"></div>
+                                <div class="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-white to-transparent z-10"></div>
+                                
+                                <div class="animate-marquee gap-3" style="animation-direction: reverse;">
+                                    <!-- ORIGINAL GROUP -->
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+
+                                    <!-- DUPLICATE GROUP -->
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                    <div class="border border-dashed border-emerald-300 bg-emerald-50/20 rounded-xl p-2.5 flex flex-col items-center relative shadow-sm w-[100px] shrink-0">
+                                        <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=200&h=200&fit=crop" class="w-16 h-16 object-cover rounded-md mb-2 shadow-sm">
+                                        <div class="bg-white border text-emerald-600 border-emerald-100 text-[9px] font-bold px-1.5 py-0.5 rounded-full flex items-center gap-1 shadow-sm whitespace-nowrap absolute -bottom-2.5">
+                                            ✓ Safe to Fulfill
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-900 mb-4 group-hover:text-emerald-500 transition-colors">Protecting Genuine Buyers</h3>
+                        <p class="text-slate-500 leading-relaxed text-sm">
+                            Basic rule systems block *all* high-value orders as risky. Our Random Forest model knows that if a user is registered and prepays, the RTO risk plummets—allowing high-LTV customers a frictionless experience.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Fun Pricing Section -->
+    <section id="pricing" class="py-24 bg-slate-50 border-t border-slate-100 scroll-mt-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-6">Simple, transparent <span class="bg-gradient-to-r from-teal-500 to-emerald-500 gradient-text">pricing</span></h2>
+                <p class="text-lg text-slate-500 max-w-2xl mx-auto">
+                    Whether you are an open-source hobbyist, scaling D2C brand, or a recruiter looking for 10x talent, we have a plan for you.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto items-center">
+                
+                <!-- Tier 1: Open Source -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Hobbyist</h3>
+                    <p class="text-slate-500 text-sm mb-6">Perfect for playing around with ML workflows.</p>
+                    <div class="text-4xl font-extrabold text-slate-900 mb-6 font-mono">₹0<span class="text-lg text-slate-400 font-sans font-medium">/mo</span></div>
+                    <ul class="space-y-4 mb-8 text-sm text-slate-600 font-medium tracking-tight">
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Clone entire GitHub repo</li>
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Streamlit Sandbox Access</li>
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Basic CSV Uploads</li>
+                    </ul>
+                    <a href="https://github.com/abhinavthakurr/fulfill-sense" target="_blank" class="block w-full py-3 px-4 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold text-center rounded-xl transition-colors">
+                        View Source Code
+                    </a>
+                </div>
+
+                <!-- Tier 2: The "Hire Me" Tier (Highlighted) -->
+                <div class="bg-teal-600 rounded-3xl p-8 border border-teal-500 shadow-2xl transform md:scale-105 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-400 text-emerald-950 text-xs font-black px-3 py-1 rounded-bl-lg uppercase tracking-wider">Best Value</div>
+                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-teal-500 rounded-full blur-3xl opacity-50 pointer-events-none"></div>
+                    
+                    <h3 class="text-lg font-bold text-white mb-2 relative z-10">Acquire the Creator</h3>
+                    <p class="text-teal-200 text-sm mb-6 relative z-10">Why license the API when you can acquire the founder?</p>
+                    <div class="text-4xl font-extrabold text-white mb-6 relative z-10 font-mono tracking-tighter">1 Job Offer</div>
+                    <ul class="space-y-4 mb-8 text-sm text-teal-100 font-medium tracking-tight relative z-10">
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Integrate FulfillSense into your team</li>
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Endless full-stack feature shipments</li>
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> High ROI on office coffee</li>
+                        <li class="flex items-center gap-3"><svg class="w-4 h-4 text-emerald-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Reusable, scalable code architecture</li>
+                    </ul>
+                    <a href="mailto:abhinavt792@gmail.com?subject=FulfillSense%20Inquiry%20%7C%20Let's%20Connect" class="block w-full py-3 px-4 bg-white hover:bg-slate-50 text-teal-600 font-extrabold text-center rounded-xl transition-colors shadow-lg relative z-10">
+                        Let's Connect
+                    </a>
+                </div>
+
+                <!-- Tier 3: Fake Enterprise -->
+                <div class="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm hover:shadow-md transition-shadow relative">
+                    <div class="absolute inset-0 bg-slate-50/50 backdrop-blur-[1px] z-20 flex items-center justify-center rounded-3xl">
+                        <span class="bg-slate-800 text-white font-bold px-4 py-1.5 rounded-full text-sm shadow-xl border border-slate-700">Beta Full</span>
+                    </div>
+                    <div class="opacity-50">
+                        <h3 class="text-lg font-bold text-slate-900 mb-2">Enterprise API</h3>
+                        <p class="text-slate-500 text-sm mb-6">Massive scale for massive supply chains.</p>
+                        <div class="text-4xl font-extrabold text-slate-900 mb-6 font-mono">₹4,999<span class="text-lg text-slate-400 font-sans font-medium">/mo</span></div>
+                        <ul class="space-y-4 mb-8 text-sm text-slate-600 font-medium tracking-tight">
+                            <li class="flex items-center gap-3"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> 50,000 API Req/Month</li>
+                            <li class="flex items-center gap-3"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Custom Model Retraining</li>
+                            <li class="flex items-center gap-3"><svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> Shopify Webhook Support</li>
+                        </ul>
+                        <button disabled class="w-full py-3 px-4 bg-slate-200 text-slate-400 font-bold text-center rounded-xl">
+                            Join Waitlist
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+
+    <section class="py-24 px-6 bg-[#fafafa]">
+        <div class="max-w-5xl mx-auto bg-slate-900 rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl">
+            <!-- Glow -->
+            <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-teal-500 blur-[150px] opacity-20"></div>
+            
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-6 relative z-10">
+                Stop guessing. Start predicting.
+            </h2>
+            <p class="text-slate-300 max-w-xl mx-auto mb-10 text-lg relative z-10 font-medium">
+                Unbundle your logistics overhead. Upload your unfulfilled orders CSV today and instantly see how much margin you can save.
+            </p>
+            <!-- CHANGED: Replaced href with App Modal trigger -->
+            <button onclick="openAppModal()" class="px-10 py-5 bg-white text-slate-900 font-extrabold rounded-full hover:bg-teal-50 hover:text-teal-600 transition-colors shadow-xl inline-block relative z-10 text-lg cursor-pointer">
+                Try for Free
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-12 text-center text-slate-500 text-sm font-medium">
+        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+            <a href="#" class="font-extrabold text-xl text-slate-900 mb-4 md:mb-0 hover:opacity-80 transition-opacity">
+                Fulfill<span class="text-teal-600">Sense</span>
+            </a>
+            <div class="space-x-8">
+                <a href="#technology" class="hover:text-teal-600 transition-colors">Technology</a>
+                <a href="#pricing" class="hover:text-teal-600 transition-colors">Pricing</a>
+                <a href="https://github.com/abhinavthakurr/fulfill-sense" target="_blank" class="hover:text-teal-600 transition-colors">GitHub Repository</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- App Modal Scripts -->
+    <script>
+        function openAppModal() {
+            const modal = document.getElementById('app-modal');
+            const windowEl = document.getElementById('app-modal-window');
+            const iframe = document.getElementById('app-iframe');
+            
+            // Show modal container
+            modal.classList.remove('hidden');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.classList.add('opacity-100');
+                windowEl.classList.remove('scale-95');
+                windowEl.classList.add('scale-100');
+            }, 10);
+            
+            // Append ?embed=true to completely whitelabel (hide top/side bars of Streamlit)
+            if(!iframe.src.includes('streamlit.app')) {
+                iframe.src = "https://fulfill-sense.streamlit.app/?embed=true";
+            } else {
+                // If it already loaded, ensure loader disappears instantly just in case
+                document.getElementById('app-loader').style.display = 'none';
+            }
+            
+            // Prevent background page from scrolling while modal is open
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeAppModal() {
+            const modal = document.getElementById('app-modal');
+            const windowEl = document.getElementById('app-modal-window');
+            
+            // Trigger fade out
+            modal.classList.remove('opacity-100');
+            modal.classList.add('opacity-0');
+            windowEl.classList.remove('scale-100');
+            windowEl.classList.add('scale-95');
+            
+            // Wait for transition to finish then hide container
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+            
+            // Restore background scrolling
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add shadow to navbar on scroll for premium feel
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 10) {
+                nav.classList.add('shadow-sm');
+            } else {
+                nav.classList.remove('shadow-sm');
+            }
+        });
+    </script>
 </body>
 </html>
