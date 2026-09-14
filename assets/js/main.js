@@ -120,16 +120,32 @@
    * A faithful miniature of the real engine: four behavioural signals in,
    * an RTO probability out, quarantined above the 75% threshold.
    * ------------------------------------------------------------------- */
+  /* Two markets, interleaved, so the feed reads as a global stream. Each order
+     carries its own currency: cash-on-delivery dominates in India, while the
+     US risk signal leans on guest checkout and cart value. */
   const ORDERS = [
-    { id: "#88392", city: "Kanpur", value: 4820, cod: true, guest: true, risk: 94 },
-    { id: "#1104A", city: "Bengaluru", value: 1290, cod: false, guest: false, risk: 12 },
-    { id: "#77510", city: "Patna", value: 6350, cod: true, guest: true, risk: 88 },
-    { id: "#9921B", city: "Mumbai", value: 2480, cod: false, guest: false, risk: 4 },
-    { id: "#45028", city: "Jaipur", value: 3990, cod: true, guest: false, risk: 61 },
-    { id: "#20347", city: "Pune", value: 899, cod: false, guest: true, risk: 23 },
-    { id: "#61180", city: "Lucknow", value: 5410, cod: true, guest: true, risk: 79 },
-    { id: "#33925", city: "Chennai", value: 1750, cod: false, guest: false, risk: 8 },
+    { id: "#88392", city: "Kanpur", cur: "INR", value: 4820, cod: true, guest: true, risk: 94 },
+    { id: "#US4410", city: "Miami", cur: "USD", value: 489, cod: true, guest: true, risk: 91 },
+    { id: "#1104A", city: "Bengaluru", cur: "INR", value: 1290, cod: false, guest: false, risk: 12 },
+    { id: "#US7725", city: "Seattle", cur: "USD", value: 128, cod: false, guest: false, risk: 9 },
+    { id: "#77510", city: "Patna", cur: "INR", value: 6350, cod: true, guest: true, risk: 88 },
+    { id: "#US3041", city: "Houston", cur: "USD", value: 312, cod: true, guest: true, risk: 86 },
+    { id: "#9921B", city: "Mumbai", cur: "INR", value: 2480, cod: false, guest: false, risk: 4 },
+    { id: "#US9183", city: "Phoenix", cur: "USD", value: 254, cod: false, guest: true, risk: 47 },
+    { id: "#45028", city: "Jaipur", cur: "INR", value: 3990, cod: true, guest: false, risk: 61 },
+    { id: "#US2268", city: "Chicago", cur: "USD", value: 76, cod: false, guest: false, risk: 6 },
+    { id: "#61180", city: "Lucknow", cur: "INR", value: 5410, cod: true, guest: true, risk: 79 },
+    { id: "#US5502", city: "Austin", cur: "USD", value: 198, cod: false, guest: false, risk: 15 },
+    { id: "#20347", city: "Pune", cur: "INR", value: 899, cod: false, guest: true, risk: 23 },
+    { id: "#US6117", city: "Newark", cur: "USD", value: 402, cod: false, guest: true, risk: 68 },
+    { id: "#33925", city: "Chennai", cur: "INR", value: 1750, cod: false, guest: false, risk: 8 },
+    { id: "#US8830", city: "Denver", cur: "USD", value: 145, cod: false, guest: false, risk: 11 },
   ];
+
+  const money = (order) =>
+    order.cur === "USD"
+      ? `$${order.value.toLocaleString("en-US")}`
+      : `₹${order.value.toLocaleString("en-IN")}`;
 
   const verdictFor = (risk) => {
     if (risk >= 75) return { state: "risk", label: "QUARANTINE" };
@@ -162,11 +178,9 @@
       row.className = "order";
       row.innerHTML = `
         <div class="order__id">${order.id}</div>
-        <div class="order__meta">${order.city} · ₹${order.value.toLocaleString(
-        "en-IN"
-      )} · ${order.cod ? "COD" : "Prepaid"} · ${
-        order.guest ? "guest" : "registered"
-      }</div>
+        <div class="order__meta">${order.city} · ${money(order)} · ${
+        order.cod ? "COD" : "Prepaid"
+      } · ${order.guest ? "guest" : "registered"}</div>
         <div class="order__chip" data-state="${verdict.state}">${
         order.risk
       }% ${verdict.label}</div>`;
